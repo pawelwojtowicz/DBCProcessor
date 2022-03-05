@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <regex>
 
 class CDBCFileParser
 {
@@ -9,4 +10,7 @@ public:
 
   bool ReadDBCFile( const std::string& filename );
 private:
+  std::regex m_messageRegExp;
+  std::regex m_signalRegExp;
+
 };
