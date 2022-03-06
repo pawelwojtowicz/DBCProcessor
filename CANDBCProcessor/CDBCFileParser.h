@@ -12,5 +12,9 @@ public:
 private:
   std::regex m_messageRegExp;
   std::regex m_signalRegExp;
+  std::regex m_multiplexedSignalRegExp;
+  std::regex m_messageCommentRegExp;
+  std::regex m_signalCommentRegExp;
+
 
 };
