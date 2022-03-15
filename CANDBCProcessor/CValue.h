@@ -1,16 +1,21 @@
 #pragma once
+#include <string>
+#include <memory>
+#include "ISignalInfo.h"
 
 class CValue
 {
 public:
-    CValue( uint64_t rawValue );
-    ~CValue();
+    CValue( const uint64_t& rawValue, std::shared_ptr<ISignalInfo> signal );
+    virtual ~CValue();
 
-    const uint64& GetRawValue() const;
-    bool GetValue( unsigned int& value ) const;
-    bool GetValue( int& value ) const;
-    bool GetValue( floar& value ) const;
-    bool GetValue( std::string& value ) const;
+    std::shared_ptr<ISignalInfo> GetSignalInfo();
+    const uint64_t& GetRawValue() const;
+    virtual bool GetValue( int& value ) const;
+    virtual bool GetValue( float& value) const ;
+    virtual bool GetValue( std::string& value ) const;
 private:
-    uint64_t m_rawValue
+    uint64_t m_rawValue;
+
+    std::shared_ptr<ISignalInfo> m_signalInfo;
 };

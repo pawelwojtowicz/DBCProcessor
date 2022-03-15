@@ -2,12 +2,12 @@
 #include <iostream>
 #include <bitset>
 
-CSignal::CSignal( const int start, const int length)
+CSignal::CSignal( const int start, const int length, eEndiannes endian)
 : m_bitStart(start)
 , m_bitLength(length)
 , m_canSignalMask ( (0x1ULL << m_bitLength ) -1 )
 , m_byteCount( m_bitLength / 8 )
-, m_endiannes( littleEndian )
+, m_endiannes( endian )
 {
     if ( m_bitLength != ( m_byteCount * 8 ) )
     {
@@ -19,7 +19,27 @@ CSignal::~CSignal()
 {
 }
 
-bool CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
+const std::string& CSignal::GetName()
+{
+    return m_signalName;
+}
+
+const std::string& CSignal::GetUnit()
+{
+    return m_unit;
+}
+
+const std::string CSignal::GetProperty( const std::string& propertyName )
+{
+    const auto propertyIt = m_signalPropertyMap.find( propertyName );
+    if ( m_signalPropertyMap.end() != propertyIt )
+    {
+        return propertyIt->second;
+    }
+    return std::string();
+}
+
+std::unique_ptr<CValue> CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
 {
     uint64_t rawValue = m_canSignalMask & ( canData >> m_bitStart );
 
@@ -35,7 +55,10 @@ bool CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
         }
     }
 
-    std::cout << "-------------------" << std::hex << rawValue << std::endl;
+    return CreateValue(rawValue);
+}
 
-    return true;
+std::unique_ptr<CValue> CSignal::CreateValue( const uint64_t rawValue )
+{
+    return std::move(std::make_unique<CValue>( rawValue, std::shared_ptr<ISignalInfo>(this) ));
 }
