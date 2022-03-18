@@ -2,10 +2,12 @@
 #include <string>
 #include <regex>
 
+class IDBCEngineInit;
+
 class CDBCFileParser
 {
 public:
-  CDBCFileParser();
+  CDBCFileParser( IDBCEngineInit& engineInitializer );
   ~CDBCFileParser();
 
   bool ReadDBCFile( const std::string& filename );
@@ -22,5 +24,6 @@ private:
   std::regex m_defineMsgProperty;
   std::regex m_defineSignalProperty;
 
+  IDBCEngineInit& m_rDBCProcessorInitializer;
 
 };

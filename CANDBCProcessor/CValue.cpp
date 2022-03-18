@@ -1,5 +1,5 @@
 #include "CValue.h"
-CValue::CValue( const uint64_t& rawValue, std::shared_ptr<ISignalInfo> signal )
+CValue::CValue( const uint64_t& rawValue, const ISignalInfo& signal )
 : m_rawValue(rawValue)
 , m_signalInfo(signal)
 {
@@ -10,7 +10,7 @@ CValue::CValue( const uint64_t& rawValue, std::shared_ptr<ISignalInfo> signal )
 
  }
 
-std::shared_ptr<ISignalInfo> CValue::GetSignalInfo()
+const ISignalInfo& CValue::GetSignalInfo()
 {
     return m_signalInfo;
 }

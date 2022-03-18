@@ -19,17 +19,22 @@ CSignal::~CSignal()
 {
 }
 
-const std::string& CSignal::GetName()
+const std::string& CSignal::GetName() const
 {
     return m_signalName;
 }
 
-const std::string& CSignal::GetUnit()
+const std::string& CSignal::GetUnit() const
 {
     return m_unit;
 }
 
-const std::string CSignal::GetProperty( const std::string& propertyName )
+void CSignal::AddProperty( const std::string& propertyName,  const std::string& propertyValue )
+{
+    m_signalPropertyMap.insert(tSignalPropertyMap::value_type(propertyName, propertyValue) );
+}
+
+const std::string CSignal::GetProperty( const std::string& propertyName ) const
 {
     const auto propertyIt = m_signalPropertyMap.find( propertyName );
     if ( m_signalPropertyMap.end() != propertyIt )
@@ -60,5 +65,5 @@ std::unique_ptr<CValue> CSignal::ExtractValue( const uint64_t& canData , size_t 
 
 std::unique_ptr<CValue> CSignal::CreateValue( const uint64_t rawValue )
 {
-    return std::move(std::make_unique<CValue>( rawValue, std::shared_ptr<ISignalInfo>(this) ));
+    return std::move(std::make_unique<CValue>( rawValue, *this ));
 }

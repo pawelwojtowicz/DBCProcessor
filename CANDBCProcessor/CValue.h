@@ -1,15 +1,16 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <list>
 #include "ISignalInfo.h"
 
 class CValue
 {
 public:
-    CValue( const uint64_t& rawValue, std::shared_ptr<ISignalInfo> signal );
+    CValue( const uint64_t& rawValue, const ISignalInfo& signal );
     virtual ~CValue();
 
-    std::shared_ptr<ISignalInfo> GetSignalInfo();
+    const ISignalInfo& GetSignalInfo();
     const uint64_t& GetRawValue() const;
     virtual bool GetValue( int& value ) const;
     virtual bool GetValue( float& value) const ;
@@ -17,5 +18,7 @@ public:
 private:
     uint64_t m_rawValue;
 
-    std::shared_ptr<ISignalInfo> m_signalInfo;
+    const ISignalInfo& m_signalInfo;
 };
+
+using tValues = std::list<std::unique_ptr<CValue>>;
