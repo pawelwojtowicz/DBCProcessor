@@ -1,6 +1,8 @@
 project ( CANDBCProcessor )
 
 add_library( CANDBCProcessor STATIC 
+    CCANMessageProcessor.cpp
+    CCANMessageProcessor.h
     CDBCFileParser.cpp
     CDBCFileParser.h
     CMessage.cpp
