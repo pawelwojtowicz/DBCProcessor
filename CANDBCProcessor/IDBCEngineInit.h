@@ -5,7 +5,7 @@
 class IDBCEngineInit
 {
 public:
-    virtual void AddMessage( const unsigned int canId , const std::string& name,  size_t size, std::string& sender ) = 0;
+    virtual void AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender ) = 0;
 
     virtual void AddSignal( const std::string& name,
                             const unsigned int bitStart,
@@ -41,5 +41,4 @@ public:
 
     virtual void SetMessageProperty( const std::string& propertyName, const unsigned int msgId, const std::string& propertyValue ) = 0;
     virtual void SetSignalProperty( const std::string& propertyName, const unsigned int msgId, const std::string& signalName, const std::string& propertyValue) = 0;
-
 };
