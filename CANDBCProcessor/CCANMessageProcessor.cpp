@@ -1,8 +1,13 @@
 #include "CCANMessageProcessor.h"
+#include "CDBCFileParser.h"
 
 void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList )
 {
-
+    CDBCFileParser fileParser(*this);
+    for ( const auto& fileName : dbcList )
+    {
+        fileParser.ReadDBCFile(fileName);
+    }
 }
 
 void CCANMessageProcessor::Shutdown()
@@ -15,7 +20,6 @@ tValues&& CCANMessageProcessor::ProcessCANMessage( const unsigned int msgId, con
     tValues extractedValues;
 
     const auto messageIter = m_messages.find( msgId );
-
     if (m_messages.end() != messageIter )
     {
         extractedValues = messageIter->second->ProcessMessage(data,8);
