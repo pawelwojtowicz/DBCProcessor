@@ -14,14 +14,15 @@ public:
 
 public:
     CSignal( const int start, const int length, eEndiannes endian);
-    ~CSignal();
+    virtual ~CSignal();
 
+
+    void SetDescription( const std::string& description);
     // Adds signal property during initialization
     void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
 
     std::unique_ptr<CValue> ExtractValue( const uint64_t& data , size_t dataLength);
 
-private:
     /** ISignalInfo */
     const std::string& GetName() const override;
     const std::string& GetUnit() const override;
@@ -32,6 +33,7 @@ private:
 
 private:
     std::string m_signalName;
+    std::string m_description;
     int m_bitStart;
     int m_bitLength;
     eEndiannes m_endiannes;

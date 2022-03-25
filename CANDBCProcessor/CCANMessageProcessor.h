@@ -6,13 +6,14 @@
 
 class CCANMessageProcessor : public IDBCEngineInit
 {
-    using tMsgId2Message = std::map<unsigned int, std::unique_ptr<CMessage>>;
+    using tMsgId2Message = std::map<unsigned int, std::shared_ptr<CMessage>>;
 
 public:
     void Initialize(  const std::vector<std::string>& dbcList );
     void Shutdown();
 
     tValues&& ProcessCANMessage( const unsigned int, const uint64_t& data);
+    tValues&& ProcessCANMessageByPGN( const unsigned int, const uint64_t& data);
 
 private:
     // IDBCEngineInit
@@ -42,7 +43,7 @@ private:
 
     void AddMessageDescription( unsigned int msgId, const std::string& description) override;
 
-    void AddSignalDescriptin( unsigned int msgId, const std::string& valueName, const std::string& description) override;
+    void AddSignalDescription( unsigned int msgId, const std::string& valueName, const std::string& description) override;
 
     void SetSignalPropertyType( const std::string& valueName, const std::string& type ) override;
     void SetMessagePropertyType( const std::string& propertyName, const std::string& propertyValue) override;
@@ -54,5 +55,9 @@ private:
     void SetSignalProperty( const std::string& propertyName, const unsigned int msgId, const std::string& signalName, const std::string& propertyValue) override;
 
 private:
-    tMsgId2Message m_messages;
+    //used during the initialization
+    std::shared_ptr<CMessage> m_currentMessage;
+
+    tMsgId2Message m_msgId2message;
+    tMsgId2Message m_pgn2message;
 };

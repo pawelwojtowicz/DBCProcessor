@@ -27,7 +27,7 @@ class DBCProcessorInitializerMock : public IDBCEngineInit
                             const std::string& ,
                             const std::string& ));
     MOCK_METHOD2( AddMessageDescription, void ( unsigned int msgId, const std::string& description) );
-    MOCK_METHOD3( AddSignalDescriptin, void ( unsigned int msgId, const std::string& valueName, const std::string& description));
+    MOCK_METHOD3( AddSignalDescription, void ( unsigned int msgId, const std::string& valueName, const std::string& description));
     MOCK_METHOD2( SetSignalPropertyType, void ( const std::string& valueName, const std::string& type ) );
     MOCK_METHOD2( SetMessagePropertyType, void ( const std::string& propertyName, const std::string& propertyValue));
     MOCK_METHOD2( SetGeneralPropertyType, void ( const std::string& propertyName, const std::string& propertyValue));

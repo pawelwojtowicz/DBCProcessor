@@ -31,7 +31,7 @@ public:
 
     virtual void AddMessageDescription( unsigned int msgId, const std::string& description) = 0;
 
-    virtual void AddSignalDescriptin( unsigned int msgId, const std::string& valueName, const std::string& description) = 0;
+    virtual void AddSignalDescription( unsigned int msgId, const std::string& valueName, const std::string& description) = 0;
 
     virtual void SetSignalPropertyType( const std::string& valueName, const std::string& type ) = 0;
     virtual void SetMessagePropertyType( const std::string& propertyName, const std::string& propertyValue) = 0;

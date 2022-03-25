@@ -142,7 +142,7 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
                 const std::string& signalName = match[2];
                 const std::string& comment = match[3];
 
-                m_rDBCProcessorInitializer.AddSignalDescriptin( messageId, signalName, comment);
+                m_rDBCProcessorInitializer.AddSignalDescription( messageId, signalName, comment);
             }
             else if (std::regex_search(dbcLine,match, m_signalPropertyTypeRegExp) )
             {

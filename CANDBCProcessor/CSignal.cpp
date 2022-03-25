@@ -8,6 +8,7 @@ CSignal::CSignal( const int start, const int length, eEndiannes endian)
 , m_canSignalMask ( (0x1ULL << m_bitLength ) -1 )
 , m_byteCount( m_bitLength / 8 )
 , m_endiannes( endian )
+, m_description("")
 {
     if ( m_bitLength != ( m_byteCount * 8 ) )
     {
@@ -17,6 +18,11 @@ CSignal::CSignal( const int start, const int length, eEndiannes endian)
 
 CSignal::~CSignal()
 {
+}
+
+void CSignal::SetDescription( const std::string& description)
+{
+    m_description = description;
 }
 
 const std::string& CSignal::GetName() const

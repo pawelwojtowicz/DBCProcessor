@@ -1,6 +1,11 @@
 #include "CMessage.h"
+#include <algorithm>
 
-CMessage::CMessage()
+CMessage::CMessage(  const std::string& name, size_t msgSize, const std::string& sender )
+: m_name(name)
+, m_msgSize(msgSize)
+, m_sender(sender)
+, m_description("")
 {
 
 }
@@ -8,6 +13,22 @@ CMessage::CMessage()
 CMessage::~CMessage()
 {
 
+}
+
+void CMessage::SetDescription( const std::string& description)
+{
+    m_description = description;
+}
+
+void CMessage::AddSignalDescription( const std::string& signalName , const std::string& description)
+{
+    auto signalIter = std::find_if( m_signalList.begin(), 
+                                    m_signalList.end(), 
+                                    [signalName]( auto signal ) { return signal.GetName() == signalName; } );
+    if (m_signalList.end() != signalIter )
+    {
+        signalIter->SetDescription( description);
+    }
 }
 
 void CMessage::AddMessageProperty( const std::string& name, const std::string& value)
