@@ -20,7 +20,31 @@ void CMessage::SetDescription( const std::string& description)
     m_description = description;
 }
 
-void CMessage::AddSignalDescription( const std::string& signalName , const std::string& description)
+void CMessage::AddSignal(   const std::string& name,
+                            const unsigned int bitStart,
+                            const size_t size,
+                            const CSignal::eEndiannes endiannes,
+                            const tValueProperties& tValueProperties,
+                            const std::string& unit,
+                            const std::string& receiver)
+{
+
+
+}
+
+void CMessage::AddMultiplexedSignal(    const std::string& name,
+                                        const unsigned int bitStart,
+                                        const size_t size,
+                                        const CSignal::eEndiannes endiannes,
+                                        const tValueProperties& tValueProperties,
+                                        const std::string& unit,
+                                        const std::string& receiver)
+{
+    
+}
+
+
+void CMessage::SetSignalDescription( const std::string& signalName , const std::string& description)
 {
     auto signalIter = std::find_if( m_signalList.begin(), 
                                     m_signalList.end(), 

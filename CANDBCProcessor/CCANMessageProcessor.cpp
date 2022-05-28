@@ -60,9 +60,15 @@ void CCANMessageProcessor::AddSignal( const std::string& name,
                     const std::string& unit,
                     const std::string& receiver )
 {
+    tValueProperties signalValueProperties;
+    signalValueProperties.min = min;
+    signalValueProperties.max = max;
+    signalValueProperties.offset = offset;
+    signalValueProperties.scale = scale;
+
     if (m_currentMessage)
     {
-        m_currentMessage->AddSignal();
+        m_currentMessage->AddSignal( name,bitStart,size,endiannes,signalValueProperties,unit,receiver);
     }
 }
 
@@ -77,9 +83,15 @@ void CCANMessageProcessor::AddMultiplexedSignal( const std::string& name,
                             const std::string& unit,
                             const std::string& receiver )
 {
+    tValueProperties signalValueProperties;
+    signalValueProperties.min = min;
+    signalValueProperties.max = max;
+    signalValueProperties.offset = offset;
+    signalValueProperties.scale = scale;
+
     if (m_currentMessage)
     {
-        m_currentMessage->AddMultiplexedSignal();
+        m_currentMessage->AddMultiplexedSignal( name,bitStart,size,endiannes,signalValueProperties,unit,receiver);
     }
 }
 
@@ -97,7 +109,7 @@ void CCANMessageProcessor::AddSignalDescription( unsigned int msgId, const std::
     const auto messageIter = m_msgId2message.find( msgId );
     if (m_msgId2message.end() != messageIter )
     {
-        messageIter->second->SetDescription(description);
+        messageIter->second->SetSignalDescription(valueName,description);
     }
 }
 

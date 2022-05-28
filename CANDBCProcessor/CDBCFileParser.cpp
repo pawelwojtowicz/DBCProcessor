@@ -61,11 +61,7 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
                 const std::string& length_s = match[3];
                 const size_t length = atoi(length_s.c_str());
                 const std::string& endiannes_s = match[4];
-                CSignal::eEndiannes endiannes( CSignal::eEndiannes::littleEndian) ;
-                if (  dbcBigEndian == endiannes_s )
-                {
-                    endiannes = CSignal::eEndiannes::bigEndian;
-                }
+                int endiannes = atoi( endiannes_s.c_str()) ;
                 const std::string& withSign = match[5];
                 const std::string& scale_s = match[6];
                 const float scale = atof(scale_s.c_str());
@@ -106,11 +102,7 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
 
                 const unsigned int bitStart = atoi(bitStart_s.c_str());
                 const size_t length = atoi(length_s.c_str());
-                CSignal::eEndiannes endiannes( CSignal::eEndiannes::littleEndian) ;
-                if (  dbcBigEndian == endiannes_s )
-                {
-                    endiannes = CSignal::eEndiannes::bigEndian;
-                }
+                int  endiannes( atoi( endiannes_s.c_str() ) ) ;
                 const float scale = atof(scale_s.c_str());
                 const float offset = atof( offset_s.c_str());
                 const float min = atof( min_s.c_str() );

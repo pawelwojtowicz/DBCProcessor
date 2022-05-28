@@ -12,11 +12,23 @@ public:
     CMessage( const std::string& name, size_t msgSize, const std::string& sender );
     virtual ~CMessage();
 
-    void AddSignal();
-    void AddMultiplexedSignal();
+    void AddSignal( const std::string& name,
+                    const unsigned int bitStart,
+                    const size_t size,
+                    const CSignal::eEndiannes endiannes,
+                    const tValueProperties& tValueProperties,
+                    const std::string& unit,
+                    const std::string& receiver);
+    void AddMultiplexedSignal(  const std::string& name,
+                                const unsigned int bitStart,
+                                const size_t size,
+                                const CSignal::eEndiannes endiannes,
+                                const tValueProperties& tValueProperties,
+                                const std::string& unit,
+                                const std::string& receiver);
 
     void SetDescription( const std::string& description );
-    void AddSignalDescription( const std::string& signalName , const std::string& description);
+    void SetSignalDescription( const std::string& signalName , const std::string& description);
     void AddMessageProperty( const std::string& name, const std::string& value);
     const std::string GetMessageProperty( const std::string& name);
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "CSignal.h"
 #include <string>
 
 class IDBCEngineInit
@@ -10,7 +9,7 @@ public:
     virtual void AddSignal( const std::string& name,
                             const unsigned int bitStart,
                             const size_t size,
-                            const CSignal::eEndiannes endiannes,
+                            const int endiannes,
                             const float scale,
                             const float offset,
                             const float min,
@@ -21,7 +20,7 @@ public:
     virtual void AddMultiplexedSignal( const std::string& name,
                             const unsigned int bitStart,
                             const size_t size,
-                            const CSignal::eEndiannes endiannes,
+                            const int endiannes,
                             const float scale,
                             const float offset,
                             const float min,

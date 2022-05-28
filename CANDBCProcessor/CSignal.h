@@ -4,6 +4,7 @@
 #include <memory>
 #include <map>
 #include "ISignalInfo.h"
+#include "DBCProcessor.h"
 #include "CValue.h"
 
 class CSignal : public ISignalInfo
@@ -13,7 +14,7 @@ public:
     using tSignalPropertyMap = std::map<std::string, std::string>;
 
 public:
-    CSignal( const int start, const int length, eEndiannes endian);
+    CSignal( const int start, const int length, eEndiannes endian, tValueProperties valueProperties );
     virtual ~CSignal();
 
 
@@ -38,11 +39,8 @@ private:
     int m_bitLength;
     eEndiannes m_endiannes;
     bool m_withSign;
-    float m_scale;
-    float m_offset;
-    float m_min;
-    float m_max;
 
+    tValueProperties m_valueProperties;
 
     uint64_t m_canSignalMask;
     int m_byteCount;

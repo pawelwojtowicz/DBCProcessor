@@ -2,13 +2,14 @@
 #include <iostream>
 #include <bitset>
 
-CSignal::CSignal( const int start, const int length, eEndiannes endian)
+CSignal::CSignal( const int start, const int length, eEndiannes endian, tValueProperties valueProperties)
 : m_bitStart(start)
 , m_bitLength(length)
 , m_canSignalMask ( (0x1ULL << m_bitLength ) -1 )
 , m_byteCount( m_bitLength / 8 )
 , m_endiannes( endian )
 , m_description("")
+, m_valueProperties(valueProperties)
 {
     if ( m_bitLength != ( m_byteCount * 8 ) )
     {
