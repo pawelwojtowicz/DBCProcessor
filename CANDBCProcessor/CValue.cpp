@@ -1,7 +1,15 @@
 #include "CValue.h"
-CValue::CValue( const uint64_t& rawValue, const ISignalInfo& signal )
-: m_rawValue(rawValue)
-, m_signalInfo(signal)
+
+CValue::CValue( float offset , float scale, float min, float max, const std::string& unit, const std::string& receiver )
+: m_rawValue(0)
+, m_offset(offset)
+, m_scale(scale)
+, m_min(min)
+, m_max(max)
+, m_name("")
+, m_receiver(receiver)
+, m_unit(unit)
+, m_description("")
 {
 }
 
@@ -10,9 +18,9 @@ CValue::CValue( const uint64_t& rawValue, const ISignalInfo& signal )
 
  }
 
-const ISignalInfo& CValue::GetSignalInfo()
+void CValue::AddProperty( const std::string& propertyName,  const std::string& propertyValue )
 {
-    return m_signalInfo;
+    m_signalPropertyMap.insert(tSignalPropertyMap::value_type(propertyName, propertyValue) );
 }
 
 const uint64_t& CValue::GetRawValue() const

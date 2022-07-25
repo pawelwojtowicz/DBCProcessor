@@ -12,8 +12,8 @@ public:
     void Initialize(  const std::vector<std::string>& dbcList );
     void Shutdown();
 
-    tValues&& ProcessCANMessage( const unsigned int, const uint64_t& data);
-    tValues&& ProcessCANMessageByPGN( const unsigned int, const uint64_t& data);
+    bool ProcessCANMessage( const unsigned int, const uint64_t& data);
+    bool ProcessCANMessageByPGN( const unsigned int, const uint64_t& data);
 
 private:
     // IDBCEngineInit

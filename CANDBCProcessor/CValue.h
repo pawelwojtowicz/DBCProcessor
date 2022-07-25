@@ -1,14 +1,18 @@
 #pragma once
 #include <string>
 #include <memory>
-#include <list>
+#include <map>
 #include "ISignalInfo.h"
 
 class CValue
 {
+  using tSignalPropertyMap = std::map<std::string, std::string>;
 public:
-    CValue( const uint64_t& rawValue, const ISignalInfo& signal );
+    CValue( float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver);
     virtual ~CValue();
+
+    void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
+    void UpdateValue( const uint64_t rawValue );
 
     const ISignalInfo& GetSignalInfo();
     const uint64_t& GetRawValue() const;
@@ -18,7 +22,15 @@ public:
 private:
     uint64_t m_rawValue;
 
-    const ISignalInfo& m_signalInfo;
-};
+    float m_offset;
+    float m_scale;
+    float m_min;
+    float m_max;
 
-using tValues = std::list<std::unique_ptr<CValue>>;
+    std::string m_name;
+    std::string m_receiver;
+    std::string m_unit;
+    std::string m_description;
+
+    tSignalPropertyMap m_signalPropertyMap;
+};

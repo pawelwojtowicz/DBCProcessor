@@ -1,20 +1,14 @@
 #pragma once
 #include <string>
 #include <stdint.h>
-#include <memory>
-#include <map>
-#include "ISignalInfo.h"
-#include "DBCProcessor.h"
-#include "CValue.h"
 
-class CSignal : public ISignalInfo
+class CSignal
 {
 public:
     using eEndiannes = enum { bigEndian, littleEndian };
-    using tSignalPropertyMap = std::map<std::string, std::string>;
 
 public:
-    CSignal( const int start, const int length, eEndiannes endian, tValueProperties valueProperties );
+    CSignal( const int start, const int length, eEndiannes endian );
     virtual ~CSignal();
 
 
@@ -22,30 +16,16 @@ public:
     // Adds signal property during initialization
     void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
 
-    std::unique_ptr<CValue> ExtractValue( const uint64_t& data , size_t dataLength);
-
-    /** ISignalInfo */
-    const std::string& GetName() const override;
-    const std::string& GetUnit() const override;
-    const std::string GetProperty( const std::string& propertyName ) const override;
+    uint64_t ExtractValue( const uint64_t& data , size_t dataLength);
 
 private:
-    std::unique_ptr<CValue> CreateValue( const uint64_t);
-
-private:
-    std::string m_signalName;
-    std::string m_description;
     int m_bitStart;
     int m_bitLength;
     eEndiannes m_endiannes;
     bool m_withSign;
 
-    tValueProperties m_valueProperties;
-
     uint64_t m_canSignalMask;
     int m_byteCount;
     std::string m_unit;
-    std::string receiver;
-
-     tSignalPropertyMap m_signalPropertyMap; 
+    std::string receiver; 
 };

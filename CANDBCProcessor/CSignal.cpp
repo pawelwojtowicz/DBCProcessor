@@ -2,14 +2,12 @@
 #include <iostream>
 #include <bitset>
 
-CSignal::CSignal( const int start, const int length, eEndiannes endian, tValueProperties valueProperties)
+CSignal::CSignal( const int start, const int length, eEndiannes endian )
 : m_bitStart(start)
 , m_bitLength(length)
 , m_canSignalMask ( (0x1ULL << m_bitLength ) -1 )
 , m_byteCount( m_bitLength / 8 )
 , m_endiannes( endian )
-, m_description("")
-, m_valueProperties(valueProperties)
 {
     if ( m_bitLength != ( m_byteCount * 8 ) )
     {
@@ -21,37 +19,7 @@ CSignal::~CSignal()
 {
 }
 
-void CSignal::SetDescription( const std::string& description)
-{
-    m_description = description;
-}
-
-const std::string& CSignal::GetName() const
-{
-    return m_signalName;
-}
-
-const std::string& CSignal::GetUnit() const
-{
-    return m_unit;
-}
-
-void CSignal::AddProperty( const std::string& propertyName,  const std::string& propertyValue )
-{
-    m_signalPropertyMap.insert(tSignalPropertyMap::value_type(propertyName, propertyValue) );
-}
-
-const std::string CSignal::GetProperty( const std::string& propertyName ) const
-{
-    const auto propertyIt = m_signalPropertyMap.find( propertyName );
-    if ( m_signalPropertyMap.end() != propertyIt )
-    {
-        return propertyIt->second;
-    }
-    return std::string();
-}
-
-std::unique_ptr<CValue> CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
+uint64_t CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
 {
     uint64_t rawValue = m_canSignalMask & ( canData >> m_bitStart );
 
@@ -67,10 +35,5 @@ std::unique_ptr<CValue> CSignal::ExtractValue( const uint64_t& canData , size_t 
         }
     }
 
-    return CreateValue(rawValue);
-}
-
-std::unique_ptr<CValue> CSignal::CreateValue( const uint64_t rawValue )
-{
-    return std::move(std::make_unique<CValue>( rawValue, *this ));
+    return rawValue;
 }

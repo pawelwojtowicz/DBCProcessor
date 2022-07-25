@@ -7,8 +7,8 @@ add_library( CANDBCProcessor STATIC
     CDBCFileParser.h
 #    CMessage.cpp
 #    CMessage.h
-#    CSignal.cpp 
-#    CSignal.h 
+    CSignal.cpp 
+    CSignal.h 
 #    CValue.cpp 
 #    CValue.h
     ISignalInfo.h 

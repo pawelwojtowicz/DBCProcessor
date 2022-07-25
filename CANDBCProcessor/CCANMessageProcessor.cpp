@@ -17,36 +17,36 @@ void CCANMessageProcessor::Shutdown()
 
 }
 
-tValues&& CCANMessageProcessor::ProcessCANMessage( const unsigned int msgId, const uint64_t& data)
+bool CCANMessageProcessor::ProcessCANMessage( const unsigned int msgId, const uint64_t& data)
 {
-    tValues extractedValues;
     const auto messageIter = m_msgId2message.find( msgId );
     if (m_msgId2message.end() != messageIter )
     {
-        extractedValues = messageIter->second->ProcessMessage(data,8);
+        messageIter->second->ProcessMessage(data,8);
+        return true;
     }
 
-    return std::move(extractedValues);
+    return false;
 }
 
-tValues&& CCANMessageProcessor::ProcessCANMessageByPGN( const unsigned int msgId, const uint64_t& data)
+bool CCANMessageProcessor::ProcessCANMessageByPGN( const unsigned int msgId, const uint64_t& data)
 {
-    tValues extractedValues;
     const auto messageIter = m_pgn2message.find( GET_PGN(msgId) );
     if (m_pgn2message.end() != messageIter )
     {
-        extractedValues = messageIter->second->ProcessMessage(data,8);
+      messageIter->second->ProcessMessage(data,8);
+      return true;
     }
 
-    return std::move(extractedValues);
+    return false
 }
 
 
 void CCANMessageProcessor::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )
 {
-    m_currentMessage = std::make_shared<CMessage>( name, size, sender);
-    m_msgId2message.insert( tMsgId2Message::value_type(canId,m_currentMessage) );
-    m_pgn2message.insert( tMsgId2Message::value_type( GET_PGN( canId ) , m_currentMessage));
+  m_currentMessage = std::make_shared<CMessage>( name, size, sender);
+  m_msgId2message.insert( tMsgId2Message::value_type(canId,m_currentMessage) );
+  m_pgn2message.insert( tMsgId2Message::value_type( GET_PGN( canId ) , m_currentMessage));
 }
 
 void CCANMessageProcessor::AddSignal( const std::string& name,
