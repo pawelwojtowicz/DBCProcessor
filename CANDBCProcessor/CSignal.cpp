@@ -21,19 +21,18 @@ CSignal::~CSignal()
 
 uint64_t CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
 {
-    uint64_t rawValue = m_canSignalMask & ( canData >> (m_bitStart ) );
+    uint64_t rawValue(0);
 
     if ( bigEndian == m_endiannes ) 
     {
-        rawValue = m_canSignalMask & ( canData >> ( m_bitStart ) );
-        uint64_t workingCopy(rawValue);   
-        rawValue = 0;
-        for ( int i = 0 ; i < m_byteCount ; ++i )
+        uint64_t workingCopy(canData);
+        for ( int i = 0 ; i < 8 ; ++i )
         {
             rawValue <<= 8;
-            rawValue |= workingCopy & 0xFFULL;
+            rawValue |= ( workingCopy & 0xFFULL );
             workingCopy >>= 8;
         }
+        rawValue = m_canSignalMask & ( rawValue >> ( (7 - (m_bitStart/8 ) ) * 8 + m_bitStart%8) );
     }
     else
     {
