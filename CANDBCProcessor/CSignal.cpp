@@ -6,12 +6,11 @@ CSignal::CSignal( const int start, const int length, eEndiannes endian )
 : m_bitStart(start)
 , m_bitLength(length)
 , m_canSignalMask ( (0x1ULL << m_bitLength ) -1 )
-, m_byteCount( m_bitLength / 8 )
 , m_endiannes( endian )
 {
-    if ( m_bitLength != ( m_byteCount * 8 ) )
+    if ( bigEndian == m_endiannes )
     {
-        ++m_byteCount;
+        m_bitStart = (7 - (m_bitStart/8 ) ) * 8 + m_bitStart%8 ;  
     }
 }
 
@@ -21,10 +20,11 @@ CSignal::~CSignal()
 
 uint64_t CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
 {
-    uint64_t rawValue(0);
+    uint64_t rawValue(canData);
 
     if ( bigEndian == m_endiannes ) 
     {
+        rawValue = 0;
         uint64_t workingCopy(canData);
         for ( int i = 0 ; i < 8 ; ++i )
         {
@@ -32,12 +32,7 @@ uint64_t CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
             rawValue |= ( workingCopy & 0xFFULL );
             workingCopy >>= 8;
         }
-        rawValue = m_canSignalMask & ( rawValue >> ( (7 - (m_bitStart/8 ) ) * 8 + m_bitStart%8) );
     }
-    else
-    {
-        rawValue = m_canSignalMask & ( canData >> (m_bitStart ) );
-    }
-
-    return rawValue;
+    
+    return m_canSignalMask & ( rawValue >> m_bitStart );
 }

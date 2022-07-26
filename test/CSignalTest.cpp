@@ -43,3 +43,17 @@ TEST( CSignal , ShortDeserializeBetweenBytes_LittleEndian )
     CSignal signalProcessor(30,6, CSignal::littleEndian );
     EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, 8)) , 0x1A) ;
 }
+
+TEST( CSignal , LongDeserializeBetweenBytes_BigEndian )
+{
+    uint64_t candata = 0x1032547698BADCFE;
+    CSignal signalProcessor(30,20, CSignal::bigEndian );
+    EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, 8) ) , 0xB72EA) ;
+}
+
+TEST( CSignal , LongDeserializeBetweenBytes_LittleEndian )
+{
+    uint64_t candata = 0x1032547698BADCFE;
+    CSignal signalProcessor(30,20, CSignal::littleEndian );
+    EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, 8)) , 0x951DA) ;
+}
