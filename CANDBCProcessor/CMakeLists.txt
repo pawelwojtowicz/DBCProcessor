@@ -9,8 +9,8 @@ add_library( CANDBCProcessor STATIC
 #    CMessage.h
     CSignal.cpp 
     CSignal.h 
-#    CValue.cpp 
-#    CValue.h
+    CValue.cpp 
+    CValue.h
     ISignalInfo.h 
     )
     

@@ -12,9 +12,8 @@ public:
     virtual ~CValue();
 
     void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
-    void UpdateValue( const uint64_t rawValue );
+    void UpdateValue( const uint64_t& rawValue );
 
-    const ISignalInfo& GetSignalInfo();
     const uint64_t& GetRawValue() const;
     virtual bool GetValue( int& value ) const;
     virtual bool GetValue( float& value) const ;
@@ -26,6 +25,8 @@ private:
     float m_scale;
     float m_min;
     float m_max;
+
+    float m_value;
 
     std::string m_name;
     std::string m_receiver;

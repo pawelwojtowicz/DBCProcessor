@@ -6,6 +6,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_executable( dbcProcessorTests 
     CDBCFileParserTest.cpp 
     CSignalTest.cpp
+    CValueTest.cpp
     )
 
 target_link_libraries( dbcProcessorTests CANDBCProcessor gtest gmock gtest_main pthread)
