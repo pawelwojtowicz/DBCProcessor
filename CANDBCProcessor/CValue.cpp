@@ -24,6 +24,11 @@ void CValue::AddProperty( const std::string& propertyName,  const std::string& p
     m_signalPropertyMap.insert(tSignalPropertyMap::value_type(propertyName, propertyValue) );
 }
 
+void CValue::SetDescription( const std::string& description)
+{
+    m_description = description;
+}
+
 void CValue::UpdateValue( const uint64_t& rawValue )
 {
     m_value = m_offset + rawValue * m_scale;

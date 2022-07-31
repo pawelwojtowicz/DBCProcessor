@@ -24,12 +24,12 @@ void CMessage::AddSignal(   const std::string& name,
                             const unsigned int bitStart,
                             const size_t size,
                             const CSignal::eEndiannes endiannes,
-                            const tValueProperties& tValueProperties,
+                            const tValueProperties& valueProperties,
                             const std::string& unit,
                             const std::string& receiver)
 {
-
-
+    tSignalTuple signalTuple = std::make_tuple<CSignal,CValue>( CSignal( bitStart,size,endiannes), 
+                                                                 CValue( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ) );
 }
 
 void CMessage::AddMultiplexedSignal(    const std::string& name,
@@ -46,12 +46,11 @@ void CMessage::AddMultiplexedSignal(    const std::string& name,
 
 void CMessage::SetSignalDescription( const std::string& signalName , const std::string& description)
 {
-    auto signalIter = std::find_if( m_signalList.begin(), 
-                                    m_signalList.end(), 
-                                    [signalName]( auto signal ) { return signal.GetName() == signalName; } );
-    if (m_signalList.end() != signalIter )
+    auto signalIter = m_signals.find(signalName);
+
+    if (m_signals.end() != signalIter )
     {
-        signalIter->SetDescription( description);
+        std::get<1>(signalIter->second).SetDescription( description);
     }
 }
 
@@ -70,13 +69,21 @@ const std::string CMessage::GetMessageProperty( const std::string& name)
     return std::string();
 }
 
-tValues CMessage::ProcessMessage( const uint64_t& msg , size_t msgSize )
+void CMessage::ProcessMessage( const uint64_t& msg , size_t msgSize )
 {
-    tValues extractedValues;
-    for( auto signal : m_signalList)
+    for( auto signal : m_signals)
     {
-        extractedValues.push_back(signal.ExtractValue(msg,msgSize));
+        const auto value = std::get<0>(signal.second).ExtractValue(msg,msgSize); 
+        std::get<1>(signal.second).UpdateValue(value);
     }
+}
 
-    return extractedValues;
+void CMessage::SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue)
+{
+    auto signalIter = m_signals.find(signalName);
+
+    if (m_signals.end() != signalIter )
+    {
+        std::get<1>(signalIter->second).AddProperty( propertyName, propertyValue);
+    }
 }

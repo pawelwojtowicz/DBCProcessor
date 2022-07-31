@@ -11,6 +11,8 @@ public:
     CValue( float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver);
     virtual ~CValue();
 
+    void SetDescription( const std::string& description);
+
     void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
     void UpdateValue( const uint64_t& rawValue );
 

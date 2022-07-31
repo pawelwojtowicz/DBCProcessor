@@ -22,7 +22,7 @@ private:
     void AddSignal( const std::string& name,
                     const unsigned int bitStart,
                     const size_t size,
-                    const CSignal::eEndiannes endiannes,
+                    const int endiannes,
                     const float scale,
                     const float offset,
                     const float min,
@@ -31,15 +31,15 @@ private:
                     const std::string& receiver ) override;
 
     void AddMultiplexedSignal( const std::string& name,
-                            const unsigned int bitStart,
-                            const size_t size,
-                            const CSignal::eEndiannes endiannes,
-                            const float scale,
-                            const float offset,
-                            const float min,
-                            const float max,
-                            const std::string& unit,
-                            const std::string& receiver ) override;
+                    const unsigned int bitStart,
+                    const size_t size,
+                    const int endiannes,
+                    const float scale,
+                    const float offset,
+                    const float min,
+                    const float max,
+                    const std::string& unit,
+                    const std::string& receiver )override;
 
     void AddMessageDescription( unsigned int msgId, const std::string& description) override;
 
