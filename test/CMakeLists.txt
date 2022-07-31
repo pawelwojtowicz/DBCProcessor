@@ -3,7 +3,8 @@ project ( CANDBCProcessorUnitTest )
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-add_executable( dbcProcessorTests 
+add_executable( dbcProcessorTests
+    CCANMessageProcessorTest.cpp
     CDBCFileParserTest.cpp 
     CSignalTest.cpp
     CValueTest.cpp

@@ -1,4 +1,5 @@
 #include "CMessage.h"
+#include "ISignalListener.h"
 #include <algorithm>
 
 CMessage::CMessage(  const std::string& name, size_t msgSize, const std::string& sender )
@@ -29,7 +30,10 @@ void CMessage::AddSignal(   const std::string& name,
                             const std::string& receiver)
 {
     tSignalTuple signalTuple = std::make_tuple<CSignal,CValue>( CSignal( bitStart,size,endiannes), 
-                                                                 CValue( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ) );
+                                                                CValue( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
+                                                                tSignalListeners() );
+    m_signals.insert( tSignalList::value_type( name, signalTuple));
+
 }
 
 void CMessage::AddMultiplexedSignal(    const std::string& name,
@@ -75,6 +79,10 @@ void CMessage::ProcessMessage( const uint64_t& msg , size_t msgSize )
     {
         const auto value = std::get<0>(signal.second).ExtractValue(msg,msgSize); 
         std::get<1>(signal.second).UpdateValue(value);
+        for( auto listener : std::get<2>(signal.second ) )
+        {
+            listener->NotifySignaReceived( 0x0F004, std::get<1>(signal.second) );
+        }
     }
 }
 
@@ -86,4 +94,16 @@ void CMessage::SetSignalProperty( const std::string& signalName, const std::stri
     {
         std::get<1>(signalIter->second).AddProperty( propertyName, propertyValue);
     }
+}
+
+bool CMessage::SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener)
+{
+    auto signalIter = m_signals.find(signalName);
+
+    if (m_signals.end() != signalIter )
+    {
+        std::get<2>(signalIter->second).push_back( &signalListener );
+        return true;
+    }
+    return false;
 }

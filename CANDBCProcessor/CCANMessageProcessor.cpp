@@ -1,5 +1,8 @@
 #include "CCANMessageProcessor.h"
 #include "CDBCFileParser.h"
+#include "ISignalListener.h"
+
+#include <iostream>
 
 #define GET_PGN( x ) (x & 0x00FFFF00)>> 8
 
@@ -40,6 +43,18 @@ bool CCANMessageProcessor::ProcessCANMessageByPGN( const unsigned int msgId, con
 
     return false;
 }
+
+bool CCANMessageProcessor::SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener )
+{
+    const auto messageIter = m_msgId2message.find( msgId );
+    if (m_msgId2message.end() != messageIter )
+    {
+      return messageIter->second->SubscribeCANSignal(signalName,listener);
+    }
+
+    return false;
+}
+
 
 
 void CCANMessageProcessor::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )

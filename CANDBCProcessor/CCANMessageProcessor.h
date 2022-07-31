@@ -4,6 +4,8 @@
 #include "CMessage.h"
 #include "IDBCEngineInit.h"
 
+class ISignalListenerl;
+
 class CCANMessageProcessor : public IDBCEngineInit
 {
     using tMsgId2Message = std::map<unsigned int, std::shared_ptr<CMessage>>;
@@ -14,6 +16,8 @@ public:
 
     bool ProcessCANMessage( const unsigned int, const uint64_t& data);
     bool ProcessCANMessageByPGN( const unsigned int, const uint64_t& data);
+
+    bool SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
 
 private:
     // IDBCEngineInit

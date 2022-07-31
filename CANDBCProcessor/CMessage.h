@@ -2,15 +2,17 @@
 #include <tuple>
 #include <string>
 #include <map>
+#include <list>
 #include "DBCProcessor.h"
 #include "CSignal.h"
 #include "CValue.h"
 
+class ISignalListener;
+
 class CMessage
 {
-#define DS_INFO0
-#define VALUEs
-    using tSignalTuple = std::tuple<CSignal, CValue>;
+    using tSignalListeners = std::list<ISignalListener*>;
+    using tSignalTuple = std::tuple<CSignal, CValue,tSignalListeners>;
     using tSignalList = std::map<std::string, tSignalTuple>;
     using tMessagePropertyMap = std::map<std::string, std::string>;
 public:
@@ -37,6 +39,8 @@ public:
     void SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue);
     void AddMessageProperty( const std::string& name, const std::string& value);
     const std::string GetMessageProperty( const std::string& name);
+
+    bool SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener);
 
     void ProcessMessage( const uint64_t& msg , size_t msgSize );
 
