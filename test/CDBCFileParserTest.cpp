@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <CDBCFileParser.h>
-#include <IDBCEngineInit.h>
+#include <IDBCInfoBuilder.h>
 
-class DBCProcessorInitializerMock : public IDBCEngineInit
+class DBCProcessorInitializerMock : public IDBCInfoBuilder
 {
     MOCK_METHOD4(  AddMessage, void( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender ) );
     MOCK_METHOD10( AddSignal, void (const std::string& ,

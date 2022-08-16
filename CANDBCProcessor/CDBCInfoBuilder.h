@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
-#include "IDBCEngineInit.h"
+#include "IDBCInfoBuilder.h"
 #include "CMessage.h"
 
 struct DBCInfo;
 
-class CDBCInfoBuilder: public IDBCEngineInit
+class CDBCInfoBuilder: public IDBCInfoBuilder
 {
 public:
     CDBCInfoBuilder( DBCInfo& dbcInfo);

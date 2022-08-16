@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class IDBCEngineInit
+class IDBCInfoBuilder
 {
 public:
     virtual void AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender ) = 0;
