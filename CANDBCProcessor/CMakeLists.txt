@@ -3,6 +3,8 @@ project ( CANDBCProcessor )
 add_library( CANDBCProcessor STATIC 
     CCANMessageProcessor.cpp
     CCANMessageProcessor.h
+    CDBCInfoBuilder.cpp
+    CDBCInfoBuilder.h
     CDBCFileParser.cpp
     CDBCFileParser.h
     CMessage.cpp
@@ -11,7 +13,8 @@ add_library( CANDBCProcessor STATIC
     CSignal.h 
     CValue.cpp 
     CValue.h
-    ISignalInfo.h 
+    ISignalInfo.h
+    DBCInfo.h
     )
     
 target_include_directories (CANDBCProcessor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

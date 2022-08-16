@@ -34,7 +34,7 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
 {
     bool retVal(false);
     std::string dbcLine;
-
+    
     std::ifstream dbcFile( filename );
 
     if ( dbcFile.is_open() )

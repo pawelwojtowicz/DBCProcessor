@@ -16,10 +16,11 @@ public:
 
 };
 
-void InitializeProcessor( IDBCEngineInit& processor )
+void InitializeProcessor( CCANMessageProcessor& processor )
 {
-    processor.AddMessage( 0x00F004, "EEC1",8,"ECU");
-    processor.AddSignal("EngineSpeed", 24,16, CSignal::littleEndian, 0.125 , 0, 0, 100,"m/s","*");
+    std::vector<std::string> dbcFilePaths;
+    dbcFilePaths.push_back("../test/testData/basic.dbc");
+    processor.Initialize(dbcFilePaths);
 }
 
 TEST( CCANMessageProcessor , Basic_ProcessKnownMessage )
