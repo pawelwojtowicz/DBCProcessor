@@ -7,8 +7,13 @@
 
 struct DBCInfo
 {
+    using tPropertyMap = std::map<std::string, std::string>;
     using tMsgId2Message = std::map<unsigned int, std::shared_ptr<CMessage>>;
 
-    tMsgId2Message m_msgId2message;
-    tMsgId2Message m_pgn2message;
+    tMsgId2Message msgId2message;
+    tMsgId2Message pgn2message;
+
+    tPropertyMap processorPropertyMap;
+
+    tPropertyMap propertyTypesMap;
 };

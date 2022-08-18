@@ -1,4 +1,7 @@
 #pragma once
+#include <string>
+
+const std::string emptyString = std::string();
 
 struct tValueProperties
 {

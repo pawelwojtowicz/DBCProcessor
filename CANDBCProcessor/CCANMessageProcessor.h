@@ -15,6 +15,9 @@ public:
 
     bool SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
 
+    const std::string& GetProperty( const std::string& propertyName);
+    const std::string& GetPropertyType( const std::string& propertyType);
+
 private:
     DBCInfo m_dbcInfo;
 };

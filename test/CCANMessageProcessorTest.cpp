@@ -86,3 +86,35 @@ TEST( CCANMessageProcessor , Basic_BasicSignalNotification )
     EXPECT_EQ( testUtility.OutputValue, 2728.5);
 
 }
+
+TEST( CCANMessageProcessor , GeneralPropertyFoundProperty )
+{
+    CCANMessageProcessor canProcessor;
+    InitializeProcessor( canProcessor);
+
+    EXPECT_EQ(canProcessor.GetProperty("ProtocolType"),"J1939");
+}
+
+TEST( CCANMessageProcessor , GeneralPropertyNotFoundProperty )
+{
+    CCANMessageProcessor canProcessor;
+    InitializeProcessor( canProcessor);
+
+    EXPECT_EQ(canProcessor.GetProperty("ProtocolShout"),"");
+}
+
+TEST( CCANMessageProcessor , GeneralPropertyTypeFoundProperty )
+{
+    CCANMessageProcessor canProcessor;
+    InitializeProcessor( canProcessor);
+
+    EXPECT_EQ(canProcessor.GetPropertyType("DatabaseCompiler"),"STRING");
+}
+
+TEST( CCANMessageProcessor , GeneralPropertyTypeNotFoundProperty )
+{
+    CCANMessageProcessor canProcessor;
+    InitializeProcessor( canProcessor);
+
+    EXPECT_EQ(canProcessor.GetPropertyType("ProtocolShout"),"");
+}
