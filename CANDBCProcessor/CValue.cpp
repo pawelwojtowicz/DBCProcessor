@@ -54,3 +54,8 @@ bool CValue::GetValue( std::string& value ) const
 {
     return false;
 }
+
+const std::string& CValue::GetDescription() const
+{
+    return m_description;
+}

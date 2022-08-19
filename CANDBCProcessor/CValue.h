@@ -2,7 +2,6 @@
 #include <string>
 #include <memory>
 #include <map>
-#include "ISignalInfo.h"
 
 class CValue
 {
@@ -20,6 +19,7 @@ public:
     virtual bool GetValue( int& value ) const;
     virtual bool GetValue( float& value) const ;
     virtual bool GetValue( std::string& value ) const;
+    virtual const std::string& GetDescription() const;
 private:
     uint64_t m_rawValue;
 

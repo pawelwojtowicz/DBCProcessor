@@ -13,7 +13,6 @@ add_library( CANDBCProcessor STATIC
     CSignal.h 
     CValue.cpp 
     CValue.h
-    ISignalInfo.h
     DBCInfo.h
     )
     

@@ -12,7 +12,7 @@ class ISignalListener;
 class CMessage
 {
     using tSignalListeners = std::list<ISignalListener*>;
-    using tSignalTuple = std::tuple<CSignal, CValue,tSignalListeners>;
+    using tSignalTuple = std::tuple<CSignal, CValue, tSignalListeners>;
     using tSignalList = std::map<std::string, tSignalTuple>;
     using tMessagePropertyMap = std::map<std::string, std::string>;
 public:
