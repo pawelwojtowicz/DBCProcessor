@@ -21,41 +21,41 @@ CValue::CValue( float offset , float scale, float min, float max, const std::str
 
 void CValue::AddProperty( const std::string& propertyName,  const std::string& propertyValue )
 {
-    m_signalPropertyMap.insert(tSignalPropertyMap::value_type(propertyName, propertyValue) );
+  m_signalPropertyMap.insert(tSignalPropertyMap::value_type(propertyName, propertyValue) );
 }
 
 void CValue::SetDescription( const std::string& description)
 {
-    m_description = description;
+  m_description = description;
 }
 
 void CValue::UpdateValue( const uint64_t& rawValue )
 {
-    m_value = m_offset + rawValue * m_scale;
+  m_value = m_offset + rawValue * m_scale;
 }
 
 const uint64_t& CValue::GetRawValue() const
 {
-    return m_rawValue;
+  return m_rawValue;
 }
 
 bool CValue::GetValue( int& value ) const
 {
-    return false;
+  return false;
 }
 
 bool CValue::GetValue( float& value) const
 {
-    value = m_value;
-    return true;
+  value = m_value;
+  return true;
 }
 
 bool CValue::GetValue( std::string& value ) const
 {
-    return false;
+  return false;
 }
 
 const std::string& CValue::GetDescription() const
 {
-    return m_description;
+  return m_description;
 }

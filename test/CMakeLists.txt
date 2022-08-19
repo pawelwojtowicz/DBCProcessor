@@ -4,11 +4,11 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable( dbcProcessorTests
-    CCANMessageProcessorTest.cpp
-    CDBCFileParserTest.cpp 
-    CSignalTest.cpp
-    CValueTest.cpp
-    )
+  CCANMessageProcessorTest.cpp
+  CDBCFileParserTest.cpp 
+  CSignalTest.cpp
+  CValueTest.cpp
+)
 
 target_link_libraries( dbcProcessorTests CANDBCProcessor gtest gmock gtest_main pthread)
 add_dependencies( dbcProcessorTests CANDBCProcessor)
