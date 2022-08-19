@@ -89,6 +89,8 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
       {
         const std::string& signalName = match[1];
         const std::string& multiplexer = match[2];
+
+        std::cout << multiplexer << "taka sytuacja " << std::endl;
         const std::string& bitStart_s = match[3];
         const std::string& length_s = match[4];
         const std::string& endiannes_s = match[5];

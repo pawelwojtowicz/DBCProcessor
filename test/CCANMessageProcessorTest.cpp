@@ -16,7 +16,7 @@ float OutputValue = -1;
 
 };
 
-void InitializeProcessor( CCANMessageProcessor& processor )
+static void InitializeProcessor( CCANMessageProcessor& processor )
 {
   std::vector<std::string> dbcFilePaths;
   dbcFilePaths.push_back("../test/testData/basic.dbc");

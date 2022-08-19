@@ -5,7 +5,8 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable( dbcProcessorTests
   CCANMessageProcessorTest.cpp
-  CDBCFileParserTest.cpp 
+  CDBCFileParserTest.cpp
+  MultiplexedProcessing.cpp 
   CSignalTest.cpp
   CValueTest.cpp
 )
