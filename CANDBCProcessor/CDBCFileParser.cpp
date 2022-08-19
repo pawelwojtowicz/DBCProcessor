@@ -74,14 +74,17 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
         const std::string& unit = match[10];
         const std::string& receiver = match[11];
 
+        tSignalValueProperties signalValueProperties;
+        signalValueProperties.min = min;
+        signalValueProperties.max = max;
+        signalValueProperties.offset = offset;
+        signalValueProperties.scale = scale;
+
         m_rDBCProcessorInitializer.AddSignal( signalName,
                                               bitStart,
                                               length,
                                               endiannes,
-                                              scale,
-                                              offset,
-                                              min,
-                                              max,
+                                              signalValueProperties,
                                               unit,
                                               receiver );
       }
@@ -89,8 +92,16 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
       {
         const std::string& signalName = match[1];
         const std::string& multiplexer = match[2];
+        int multiplexerId = { cMultiplexerIndexField };
+        if ( multiplexer.length() > 1 )
+        {
+          if ( 'm' == multiplexer[0])
+          {
+            std::string index = multiplexer.substr(1);
+            multiplexerId = atoi( index.c_str());
+          }
+        }
 
-        std::cout << multiplexer << "taka sytuacja " << std::endl;
         const std::string& bitStart_s = match[3];
         const std::string& length_s = match[4];
         const std::string& endiannes_s = match[5];
@@ -110,16 +121,21 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
         const float min = atof( min_s.c_str() );
         const float max = atof( max_s.c_str() );
 
+        tSignalValueProperties signalValueProperties;
+        signalValueProperties.min = min;
+        signalValueProperties.max = max;
+        signalValueProperties.offset = offset;
+        signalValueProperties.scale = scale;
+
+
         m_rDBCProcessorInitializer.AddMultiplexedSignal(    signalName,
                                                             bitStart,
                                                             length,
                                                             endiannes,
-                                                            scale,
-                                                            offset,
-                                                            min,
-                                                            max,
+                                                            signalValueProperties,
                                                             unit,
-                                                            receiver );
+                                                            receiver,
+                                                            multiplexerId );
       } 
       else if ( std::regex_search( dbcLine, match, m_messageCommentRegExp ))
       {

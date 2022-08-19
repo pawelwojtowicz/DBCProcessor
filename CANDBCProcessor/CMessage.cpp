@@ -25,7 +25,7 @@ void CMessage::AddSignal(   const std::string& name,
                             const unsigned int bitStart,
                             const size_t size,
                             const CSignal::eEndiannes endiannes,
-                            const tValueProperties& valueProperties,
+                            const tSignalValueProperties& valueProperties,
                             const std::string& unit,
                             const std::string& receiver)
 {
@@ -39,7 +39,7 @@ void CMessage::AddMultiplexedSignal(    const std::string& name,
                                         const unsigned int bitStart,
                                         const size_t size,
                                         const CSignal::eEndiannes endiannes,
-                                        const tValueProperties& tValueProperties,
+                                        const tSignalValueProperties& tValueProperties,
                                         const std::string& unit,
                                         const std::string& receiver)
 {

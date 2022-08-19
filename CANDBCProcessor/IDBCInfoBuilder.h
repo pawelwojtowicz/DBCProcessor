@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "DBCProcessor.h"
 
 class IDBCInfoBuilder
 {
@@ -10,10 +11,7 @@ public:
                           const unsigned int bitStart,
                           const size_t size,
                           const int endiannes,
-                          const float scale,
-                          const float offset,
-                          const float min,
-                          const float max,
+                          const tSignalValueProperties& valueProperties,
                           const std::string& unit,
                           const std::string& receiver ) = 0;
 
@@ -21,12 +19,10 @@ public:
                           const unsigned int bitStart,
                           const size_t size,
                           const int endiannes,
-                          const float scale,
-                          const float offset,
-                          const float min,
-                          const float max,
+                          const tSignalValueProperties& valueProperties,
                           const std::string& unit,
-                          const std::string& receiver ) = 0;
+                          const std::string& receiver, 
+                          const int multiplexId) = 0;
 
   virtual void AddMessageDescription( unsigned int msgId, const std::string& description) = 0;
 

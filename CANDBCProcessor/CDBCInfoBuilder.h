@@ -20,10 +20,7 @@ private:
                   const unsigned int bitStart,
                   const size_t size,
                   const int endiannes,
-                  const float scale,
-                  const float offset,
-                  const float min,
-                  const float max,
+                  const tSignalValueProperties& valueProperties,
                   const std::string& unit,
                   const std::string& receiver ) override;
 
@@ -31,12 +28,10 @@ private:
                   const unsigned int bitStart,
                   const size_t size,
                   const int endiannes,
-                  const float scale,
-                  const float offset,
-                  const float min,
-                  const float max,
+                  const tSignalValueProperties& valueProperties,
                   const std::string& unit,
-                  const std::string& receiver )override;
+                  const std::string& receiver,
+                  const int multiplexId) override;
 
   void AddMessageDescription( unsigned int msgId, const std::string& description) override;
 

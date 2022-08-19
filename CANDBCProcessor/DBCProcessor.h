@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
 
-const std::string emptyString = std::string();
+static const std::string emptyString = std::string();
+static const int cMultiplexerIndexField = -1;
 
-struct tValueProperties
+struct tSignalValueProperties
 {
 float offset;
 float scale;

@@ -1,6 +1,7 @@
 #include "CDBCInfoBuilder.h"
 #include "DBCInfo.h"
 #include "CDBCFileParser.h"
+#include <iostream>
 
 CDBCInfoBuilder::CDBCInfoBuilder( DBCInfo& dbcInfo)
 : m_dbcInfo(dbcInfo)
@@ -29,24 +30,15 @@ void CDBCInfoBuilder::AddSignal( const std::string& name,
                     const unsigned int bitStart,
                     const size_t size,
                     const int endiannes,
-                    const float scale,
-                    const float offset,
-                    const float min,
-                    const float max,
+                    const tSignalValueProperties& valueProperties,
                     const std::string& unit,
                     const std::string& receiver )
 {
-  tValueProperties signalValueProperties;
-  signalValueProperties.min = min;
-  signalValueProperties.max = max;
-  signalValueProperties.offset = offset;
-  signalValueProperties.scale = scale;
-
   CSignal::eEndiannes sgEndiannes = ( endiannes != 1 ) ? CSignal::bigEndian : CSignal::littleEndian;
 
   if (m_currentMessage)
   {
-      m_currentMessage->AddSignal( name,bitStart,size,sgEndiannes,signalValueProperties,unit,receiver);
+      m_currentMessage->AddSignal( name,bitStart,size,sgEndiannes,valueProperties,unit,receiver);
   }
 }
 
@@ -54,24 +46,17 @@ void CDBCInfoBuilder::AddMultiplexedSignal( const std::string& name,
                             const unsigned int bitStart,
                             const size_t size,
                             const int endiannes,
-                            const float scale,
-                            const float offset,
-                            const float min,
-                            const float max,
+                            const tSignalValueProperties& valueProperties,
                             const std::string& unit,
-                            const std::string& receiver )
+                            const std::string& receiver,
+                            const int multiplexId )
 {
-  tValueProperties signalValueProperties;
-  signalValueProperties.min = min;
-  signalValueProperties.max = max;
-  signalValueProperties.offset = offset;
-  signalValueProperties.scale = scale;
-
+  std::cout << "multiplexId ===== " << multiplexId << std::endl;
   CSignal::eEndiannes sgEndiannes = ( endiannes != 1 ) ? CSignal::bigEndian : CSignal::littleEndian;
 
   if (m_currentMessage)
   {
-    m_currentMessage->AddMultiplexedSignal( name,bitStart,size,sgEndiannes ,signalValueProperties,unit,receiver);
+    m_currentMessage->AddMultiplexedSignal( name,bitStart,size,sgEndiannes ,valueProperties,unit,receiver);
   }
 }
 
