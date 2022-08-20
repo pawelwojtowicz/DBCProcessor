@@ -51,12 +51,11 @@ void CDBCInfoBuilder::AddMultiplexedSignal( const std::string& name,
                             const std::string& receiver,
                             const int multiplexId )
 {
-  std::cout << "multiplexId ===== " << multiplexId << std::endl;
   CSignal::eEndiannes sgEndiannes = ( endiannes != 1 ) ? CSignal::bigEndian : CSignal::littleEndian;
 
   if (m_currentMessage)
   {
-    m_currentMessage->AddMultiplexedSignal( name,bitStart,size,sgEndiannes ,valueProperties,unit,receiver);
+    m_currentMessage->AddMultiplexedSignal( name,multiplexId,bitStart,size,sgEndiannes ,valueProperties,unit,receiver);
   }
 }
 

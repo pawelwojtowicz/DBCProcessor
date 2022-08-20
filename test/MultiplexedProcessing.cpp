@@ -3,6 +3,8 @@
 #include <CCANMessageProcessor.h>
 #include <ISignalListener.h>
 
+#include <iostream>
+
 class TestListener : public ISignalListener
 {
 public:
@@ -20,6 +22,7 @@ static void InitializeProcessor( CCANMessageProcessor& processor )
 {
   std::vector<std::string> dbcFilePaths;
   dbcFilePaths.push_back("../test/testData/multiplexed.dbc");
+  
   processor.Initialize(dbcFilePaths);
 }
 

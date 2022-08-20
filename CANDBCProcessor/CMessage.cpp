@@ -7,6 +7,8 @@ CMessage::CMessage(  const std::string& name, size_t msgSize, const std::string&
 , m_msgSize(msgSize)
 , m_sender(sender)
 , m_description("")
+, m_signals()
+, m_multiplexingSignal(m_signals.end())
 {
 
 }
@@ -29,21 +31,27 @@ void CMessage::AddSignal(   const std::string& name,
                             const std::string& unit,
                             const std::string& receiver)
 {
-  tSignalTuple signalTuple = std::make_tuple<CSignal,CValue>( CSignal( bitStart,size,endiannes), 
-                                                              CValue( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
+  tSignalTuple signalTuple = std::make_tuple<CSignal,CSignalValueTemplate>( CSignal( bitStart,size,endiannes), 
+                                                              CSignalValueTemplate( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
                                                               tSignalListeners() );
   m_signals.insert( tSignalList::value_type( name, signalTuple));
 }
 
 void CMessage::AddMultiplexedSignal(    const std::string& name,
+                                        const int multiplexId,
                                         const unsigned int bitStart,
                                         const size_t size,
                                         const CSignal::eEndiannes endiannes,
-                                        const tSignalValueProperties& tValueProperties,
+                                        const tSignalValueProperties& valueProperties,
                                         const std::string& unit,
                                         const std::string& receiver)
 {
+  tSignalTuple signalTuple = std::make_tuple<CSignal,CSignalValueTemplate>( CSignal( bitStart,size,endiannes), 
+                                                              CSignalValueTemplate( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
+                                                              tSignalListeners() );
     
+  m_signals.insert( tSignalList::value_type( name, signalTuple) );
+  m_multiplexingSignal = m_signals.find(  name );
 }
 
 

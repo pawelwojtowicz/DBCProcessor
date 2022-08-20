@@ -5,22 +5,19 @@
 
 class CValue
 {
+protected:
   using tSignalPropertyMap = std::map<std::string, std::string>;
 public:
   CValue( float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver);
   virtual ~CValue();
-
-  void SetDescription( const std::string& description);
-
-  void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
-  void UpdateValue( const uint64_t& rawValue );
 
   const uint64_t& GetRawValue() const;
   virtual bool GetValue( int& value ) const;
   virtual bool GetValue( float& value) const ;
   virtual bool GetValue( std::string& value ) const;
   virtual const std::string& GetDescription() const;
-private:
+
+protected:
   uint64_t m_rawValue;
 
   float m_offset;

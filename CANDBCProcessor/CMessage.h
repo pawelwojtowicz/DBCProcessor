@@ -5,14 +5,14 @@
 #include <list>
 #include "DBCProcessor.h"
 #include "CSignal.h"
-#include "CValue.h"
+#include "CSignalValueTemplate.h"
 
 class ISignalListener;
 
 class CMessage
 {
   using tSignalListeners = std::list<ISignalListener*>;
-  using tSignalTuple = std::tuple<CSignal, CValue, tSignalListeners>;
+  using tSignalTuple = std::tuple<CSignal, CSignalValueTemplate, tSignalListeners>;
   using tSignalList = std::map<std::string, tSignalTuple>;
   using tMessagePropertyMap = std::map<std::string, std::string>;
 public:
@@ -26,7 +26,9 @@ public:
                   const tSignalValueProperties& tValueProperties,
                   const std::string& unit,
                   const std::string& receiver);
+                  
   void AddMultiplexedSignal(  const std::string& name,
+                              const int multiplexId,
                               const unsigned int bitStart,
                               const size_t size,
                               const CSignal::eEndiannes endiannes,
@@ -51,6 +53,7 @@ private:
   std::string m_description;
 
   tSignalList m_signals;
+  tSignalList::iterator m_multiplexingSignal;
 
   tMessagePropertyMap m_messagePropertyMap;
 };
