@@ -21,7 +21,7 @@ bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
 
 void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )
 {
-  m_currentMessage = std::make_shared<CMessageTemplate>( name, size, sender);
+  m_currentMessage = std::make_shared<CMessageTemplate>( canId,name, size, sender);
   m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,m_currentMessage) );
   m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , m_currentMessage));
 }
@@ -38,7 +38,7 @@ void CDBCInfoBuilder::AddSignal( const std::string& name,
 
   if (m_currentMessage)
   {
-      m_currentMessage->AddSignal( name,bitStart,size,sgEndiannes,valueProperties,unit,receiver);
+      m_currentMessage->AddSignal( name,cStaticIndexField,bitStart,size,sgEndiannes,valueProperties,unit,receiver);
   }
 }
 
@@ -55,7 +55,7 @@ void CDBCInfoBuilder::AddMultiplexedSignal( const std::string& name,
 
   if (m_currentMessage)
   {
-    m_currentMessage->AddMultiplexedSignal( name,multiplexId,bitStart,size,sgEndiannes ,valueProperties,unit,receiver);
+    m_currentMessage->AddSignal( name,multiplexId,bitStart,size,sgEndiannes ,valueProperties,unit,receiver);
   }
 }
 

@@ -1,9 +1,10 @@
 #include "CMessageTemplate.h"
 #include "ISignalListener.h"
+#include <utility>
 #include <algorithm>
-
-CMessageTemplate::CMessageTemplate(const std::string& name, size_t msgSize, const std::string& sender)
-: CMessage(name, msgSize, sender)
+#include <iostream>
+CMessageTemplate::CMessageTemplate(const int msgId, const std::string& name, size_t msgSize, const std::string& sender)
+: CMessage(msgId, name, msgSize, sender)
 {
 
 }
@@ -18,32 +19,20 @@ void CMessageTemplate::SetDescription( const std::string& description)
   m_description = description;
 }
 
-void CMessageTemplate::AddSignal(   const std::string& name,
-                            const unsigned int bitStart,
-                            const size_t size,
-                            const CSignal::eEndiannes endiannes,
-                            const tSignalValueProperties& valueProperties,
-                            const std::string& unit,
-                            const std::string& receiver)
+void CMessageTemplate::AddSignal( const std::string& name,
+                                  const int multiplexId,
+                                  const unsigned int bitStart,
+                                  const size_t size,
+                                  const CSignal::eEndiannes endiannes,
+                                  const tSignalValueProperties& valueProperties,
+                                  const std::string& unit,
+                                  const std::string& receiver)
 {
-  tSignalTuple signalTuple = std::make_tuple<CSignal,CSignalValueTemplate>( CSignal( bitStart,size,endiannes), 
-                                                              CSignalValueTemplate( name,valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
-                                                              tSignalListeners() );
-  m_signals.push_back( signalTuple);
-}
+  tSignalTuple signalTuple = std::make_tuple( multiplexId, 
+                                              CSignal( bitStart,size,endiannes), 
+                                              CSignalValueTemplate( name, valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
+                                              tSignalListeners() );
 
-void CMessageTemplate::AddMultiplexedSignal(    const std::string& name,
-                                        const int multiplexId,
-                                        const unsigned int bitStart,
-                                        const size_t size,
-                                        const CSignal::eEndiannes endiannes,
-                                        const tSignalValueProperties& valueProperties,
-                                        const std::string& unit,
-                                        const std::string& receiver)
-{
-  tSignalTuple signalTuple = std::make_tuple<CSignal,CSignalValueTemplate>( CSignal( bitStart,size,endiannes), 
-                                                              CSignalValueTemplate( name, valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
-                                                              tSignalListeners() );
   if ( cMultiplexerIndexField == multiplexId )
   {
     m_signals.push_front(signalTuple);
@@ -55,14 +44,13 @@ void CMessageTemplate::AddMultiplexedSignal(    const std::string& name,
   }    
 }
 
-
 void CMessageTemplate::SetSignalDescription( const std::string& signalName , const std::string& description)
 {
-  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<1>(signalTuple).GetName();} );
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
 
   if (m_signals.end() != signalIter )
   {
-    std::get<1>(*signalIter).SetDescription( description);
+    std::get<2>(*signalIter).SetDescription( description);
   }
 }
 
@@ -73,34 +61,44 @@ void CMessageTemplate::AddMessageProperty( const std::string& name, const std::s
 
 void CMessageTemplate::ProcessMessage( const uint64_t& msg , size_t msgSize )
 {
+  int multiplexedId(cStaticIndexField);
   for( auto signal : m_signals)
   {
-    const auto value = std::get<0>(signal).ExtractValue(msg,msgSize); 
-    std::get<1>(signal).UpdateValue(value);
-    for( auto listener : std::get<2>(signal ) )
+    const auto signalMultiplexId =  std::get<0>(signal);
+    if (  signalMultiplexId < 0 || multiplexedId == signalMultiplexId )
     {
-      listener->NotifySignaReceived( 0x0F004, std::get<1>(signal) );
+      std::get<2>(signal).UpdateValue( std::get<1>(signal).ExtractValue(msg,msgSize) );
+      
+      if ( signalMultiplexId == cMultiplexerIndexField)
+      {
+        std::get<2>(signal).GetValue(multiplexedId);
+      }
+
+      for( auto listener : std::get<3>(signal ) )
+      {
+        listener->NotifySignaReceived( m_msgId, std::get<2>(signal) );
+      }
     }
   }
 }
 
 void CMessageTemplate::SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue)
 {
-  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<1>(signalTuple).GetName();} );
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
 
   if (m_signals.end() != signalIter )
   {
-    std::get<1>(*signalIter).AddProperty( propertyName, propertyValue);
+    std::get<2>(*signalIter).AddProperty( propertyName, propertyValue);
   }
 }
 
 bool CMessageTemplate::SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener)
 {
-  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<1>(signalTuple).GetName();} );
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
 
   if (m_signals.end() != signalIter )
   {
-    std::get<2>(*signalIter).push_back( &signalListener );
+    std::get<3>(*signalIter).push_back( &signalListener );
     return true;
   }
   return false;

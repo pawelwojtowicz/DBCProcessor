@@ -92,7 +92,7 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
       {
         const std::string& signalName = match[1];
         const std::string& multiplexer = match[2];
-        int multiplexerId = { cMultiplexerIndexField };
+        int multiplexerId = cMultiplexerIndexField;
         if ( multiplexer.length() > 1 )
         {
           if ( 'm' == multiplexer[0])

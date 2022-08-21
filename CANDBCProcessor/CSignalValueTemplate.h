@@ -11,6 +11,4 @@ public:
 
   void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
   void UpdateValue( const uint64_t& rawValue );
-
-
 };

@@ -32,7 +32,8 @@ const uint64_t& CValue::GetRawValue() const
 
 bool CValue::GetValue( int& value ) const
 {
-  return false;
+  value = static_cast<int>(m_value);
+  return true;
 }
 
 bool CValue::GetValue( float& value) const

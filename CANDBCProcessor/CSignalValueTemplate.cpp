@@ -22,5 +22,6 @@ void CSignalValueTemplate::AddProperty( const std::string& propertyName,  const 
 
 void CSignalValueTemplate::UpdateValue( const uint64_t& rawValue )
 {
-  m_value = m_offset + rawValue * m_scale;
+  m_rawValue = rawValue;
+  m_value = m_offset + m_rawValue * m_scale;
 }
