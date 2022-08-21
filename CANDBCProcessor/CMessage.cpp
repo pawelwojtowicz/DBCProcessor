@@ -1,5 +1,4 @@
 #include "CMessage.h"
-#include "ISignalListener.h"
 #include <algorithm>
 
 CMessage::CMessage(  const std::string& name, size_t msgSize, const std::string& sender )

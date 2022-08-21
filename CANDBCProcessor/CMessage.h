@@ -14,7 +14,7 @@ class CMessage
 protected:
   using tSignalListeners = std::list<ISignalListener*>;
   using tSignalTuple = std::tuple<CSignal, CSignalValueTemplate, tSignalListeners>;
-  using tSignalList = std::map<std::string, tSignalTuple>;
+  using tSignalList = std::list<tSignalTuple>;
   using tMessagePropertyMap = std::map<std::string, std::string>;
 public:
   CMessage( const std::string& name, size_t msgSize, const std::string& sender );
