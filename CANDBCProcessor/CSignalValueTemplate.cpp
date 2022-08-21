@@ -1,7 +1,7 @@
 #include "CSignalValueTemplate.h"
 
-CSignalValueTemplate::CSignalValueTemplate(float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver)
-: CValue(offset , scale, min, max , unit, receiver)
+CSignalValueTemplate::CSignalValueTemplate(const std::string& name, float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver)
+: CValue(name, offset , scale, min, max , unit, receiver)
 {
 }
 

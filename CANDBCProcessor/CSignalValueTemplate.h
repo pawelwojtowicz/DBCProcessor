@@ -4,7 +4,7 @@
 class CSignalValueTemplate : public CValue
 {
 public: 
-  CSignalValueTemplate(float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver);
+  CSignalValueTemplate(const std::string& name, float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver);
   virtual ~CSignalValueTemplate();
 
   void SetDescription( const std::string& description);

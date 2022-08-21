@@ -1,12 +1,12 @@
 #include "CValue.h"
 
-CValue::CValue( float offset , float scale, float min, float max, const std::string& unit, const std::string& receiver )
-: m_rawValue(0)
+CValue::CValue( const std::string& name, float offset , float scale, float min, float max, const std::string& unit, const std::string& receiver )
+: m_name(name)
+, m_rawValue(0)
 , m_offset(offset)
 , m_scale(scale)
 , m_min(min)
 , m_max(max)
-, m_name("")
 , m_value(0)
 , m_receiver(receiver)
 , m_unit(unit)
@@ -18,6 +18,12 @@ CValue::CValue( float offset , float scale, float min, float max, const std::str
  {
 
  }
+
+const std::string& CValue::GetName() const
+{
+  return m_name;
+}
+
 
 const uint64_t& CValue::GetRawValue() const
 {

@@ -26,7 +26,7 @@ void CMessageTemplate::AddSignal(   const std::string& name,
                             const std::string& receiver)
 {
   tSignalTuple signalTuple = std::make_tuple<CSignal,CSignalValueTemplate>( CSignal( bitStart,size,endiannes), 
-                                                              CSignalValueTemplate( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
+                                                              CSignalValueTemplate( name,valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
                                                               tSignalListeners() );
   m_signals.insert( tSignalList::value_type( name, signalTuple));
 }
@@ -41,7 +41,7 @@ void CMessageTemplate::AddMultiplexedSignal(    const std::string& name,
                                         const std::string& receiver)
 {
   tSignalTuple signalTuple = std::make_tuple<CSignal,CSignalValueTemplate>( CSignal( bitStart,size,endiannes), 
-                                                              CSignalValueTemplate( valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
+                                                              CSignalValueTemplate( name, valueProperties.offset,valueProperties.scale,valueProperties.min,valueProperties.max,unit,receiver ),
                                                               tSignalListeners() );
     
   m_signals.insert( tSignalList::value_type( name, signalTuple) );

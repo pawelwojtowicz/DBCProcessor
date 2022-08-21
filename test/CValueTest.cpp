@@ -3,7 +3,7 @@
 
 TEST( CValue , BasicValueTest )
 {
-  CSignalValueTemplate value(25, 0.125, 25,100,"m/s", "temp");
+  CSignalValueTemplate value("testValue",25, 0.125, 25,100,"m/s", "temp");
   value.UpdateValue(13);
   float floatValue(0);
 
