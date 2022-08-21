@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "IDBCInfoBuilder.h"
-#include "CMessage.h"
+#include "CMessageTemplate.h"
 
 struct DBCInfo;
 
@@ -49,6 +49,6 @@ private:
 private:
   DBCInfo& m_dbcInfo;
 
-  std::shared_ptr<CMessage> m_currentMessage;
+  std::shared_ptr<CMessageTemplate> m_currentMessage;
 
 };

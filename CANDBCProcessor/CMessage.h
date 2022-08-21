@@ -11,6 +11,7 @@ class ISignalListener;
 
 class CMessage
 {
+protected:
   using tSignalListeners = std::list<ISignalListener*>;
   using tSignalTuple = std::tuple<CSignal, CSignalValueTemplate, tSignalListeners>;
   using tSignalList = std::map<std::string, tSignalTuple>;
@@ -19,34 +20,9 @@ public:
   CMessage( const std::string& name, size_t msgSize, const std::string& sender );
   virtual ~CMessage();
 
-  void AddSignal( const std::string& name,
-                  const unsigned int bitStart,
-                  const size_t size,
-                  const CSignal::eEndiannes endiannes,
-                  const tSignalValueProperties& tValueProperties,
-                  const std::string& unit,
-                  const std::string& receiver);
-                  
-  void AddMultiplexedSignal(  const std::string& name,
-                              const int multiplexId,
-                              const unsigned int bitStart,
-                              const size_t size,
-                              const CSignal::eEndiannes endiannes,
-                              const tSignalValueProperties& tValueProperties,
-                              const std::string& unit,
-                              const std::string& receiver);
-
-  void SetDescription( const std::string& description );
-  void SetSignalDescription( const std::string& signalName , const std::string& description);
-  void SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue);
-  void AddMessageProperty( const std::string& name, const std::string& value);
   const std::string GetMessageProperty( const std::string& name);
 
-  bool SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener);
-
-  void ProcessMessage( const uint64_t& msg , size_t msgSize );
-
-private:
+protected:
   std::string m_name;
   size_t m_msgSize;
   std::string m_sender;

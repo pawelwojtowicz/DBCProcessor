@@ -21,7 +21,7 @@ bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
 
 void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )
 {
-  m_currentMessage = std::make_shared<CMessage>( name, size, sender);
+  m_currentMessage = std::make_shared<CMessageTemplate>( name, size, sender);
   m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,m_currentMessage) );
   m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , m_currentMessage));
 }
