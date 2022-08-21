@@ -12,27 +12,26 @@ public:
   virtual ~CValue();
 
   const std::string& GetName() const;
+  const std::string& GetDescription() const;
+  const std::string& GetUnit() const;
 
   const uint64_t& GetRawValue() const;
-  virtual bool GetValue( int& value ) const;
-  virtual bool GetValue( float& value) const ;
-  virtual bool GetValue( std::string& value ) const;
-  virtual const std::string& GetDescription() const;
+
+  int GetValueINT( ) const;
+  float GetValueFLOAT( ) const ;
+  std::string GetValueSTRING( ) const;
 
 protected:
   std::string m_name;
-  uint64_t m_rawValue;
-
+  std::string m_description;
+  std::string m_unit;
+  std::string m_receiver;
   float m_offset;
   float m_scale;
   float m_min;
   float m_max;
-
-  float m_value;
-
-  std::string m_receiver;
-  std::string m_unit;
-  std::string m_description;
-
   tSignalPropertyMap m_signalPropertyMap;
+
+  uint64_t m_rawValue;
+  float m_value;
 };

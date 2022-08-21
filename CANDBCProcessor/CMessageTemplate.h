@@ -3,6 +3,10 @@
 
 class CMessageTemplate : public CMessage
 {
+  using tSignalListeners = std::list<ISignalListener*>;
+  using tSignalTuple = std::tuple<int,CSignal, CSignalValueTemplate, tSignalListeners>;
+  using tSignalList = std::list<tSignalTuple>;
+
 public:
   CMessageTemplate(const int msgId, const std::string& name, size_t msgSize, const std::string& sender);
   virtual ~CMessageTemplate();
@@ -23,4 +27,7 @@ public:
 
   bool SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener);
   void ProcessMessage( const uint64_t& msg , size_t msgSize );
+private:
+  tSignalList m_signals;
+  tSignalList::iterator m_multiplexingSignal;
 };

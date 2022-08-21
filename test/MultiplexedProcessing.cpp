@@ -11,7 +11,7 @@ public:
 virtual void NotifySignaReceived( const unsigned int msgId, const CValue& value )
 {
   ReceivedMsgId = msgId;
-  value.GetValue(OutputValue);
+  OutputValue = value.GetValueINT();
   SignalName = value.GetName();
 }
 

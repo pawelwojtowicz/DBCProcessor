@@ -7,8 +7,6 @@ CMessage::CMessage( const int msgId, const std::string& name, size_t msgSize, co
 , m_msgSize(msgSize)
 , m_sender(sender)
 , m_description("")
-, m_signals()
-, m_multiplexingSignal(m_signals.end())
 {
 
 }

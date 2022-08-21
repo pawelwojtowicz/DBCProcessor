@@ -7,6 +7,6 @@ TEST( CValue , BasicValueTest )
   value.UpdateValue(13);
   float floatValue(0);
 
-  EXPECT_EQ( value.GetValue(floatValue), true) ;
-  EXPECT_EQ( floatValue, 26.625) ;
+  EXPECT_EQ( value.GetValueFLOAT() , 26.625) ;
+  EXPECT_EQ( value.GetValueINT(), 26) ;
 }

@@ -9,7 +9,7 @@ public:
 virtual void NotifySignaReceived( const unsigned int msgId, const CValue& value )
 {
   msgId;
-  value.GetValue(OutputValue);
+  OutputValue = value.GetValueFLOAT();
 }
 
 float OutputValue = -1;

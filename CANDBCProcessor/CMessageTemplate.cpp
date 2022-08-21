@@ -5,6 +5,8 @@
 #include <iostream>
 CMessageTemplate::CMessageTemplate(const int msgId, const std::string& name, size_t msgSize, const std::string& sender)
 : CMessage(msgId, name, msgSize, sender)
+, m_signals()
+
 {
 
 }
@@ -71,7 +73,7 @@ void CMessageTemplate::ProcessMessage( const uint64_t& msg , size_t msgSize )
       
       if ( signalMultiplexId == cMultiplexerIndexField)
       {
-        std::get<2>(signal).GetValue(multiplexedId);
+        multiplexedId = std::get<2>(signal).GetValueINT();
       }
 
       for( auto listener : std::get<3>(signal ) )

@@ -12,9 +12,6 @@ class ISignalListener;
 class CMessage
 {
 protected:
-  using tSignalListeners = std::list<ISignalListener*>;
-  using tSignalTuple = std::tuple<int,CSignal, CSignalValueTemplate, tSignalListeners>;
-  using tSignalList = std::list<tSignalTuple>;
   using tMessagePropertyMap = std::map<std::string, std::string>;
 public:
   CMessage( const int msgId, const std::string& name, size_t msgSize, const std::string& sender );
@@ -29,8 +26,6 @@ protected:
   std::string m_sender;
   std::string m_description;
 
-  tSignalList m_signals;
-  tSignalList::iterator m_multiplexingSignal;
 
   tMessagePropertyMap m_messagePropertyMap;
 };
