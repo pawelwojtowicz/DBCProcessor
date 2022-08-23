@@ -5,6 +5,12 @@
 
 #include <iostream>
 
+const std::string& CCANMessageProcessor::GetDBCVersion() const
+{
+  return m_dbcInfo.dbcVersion;
+}
+
+
 void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList )
 {
   CDBCInfoBuilder dbcBuilder(m_dbcInfo);

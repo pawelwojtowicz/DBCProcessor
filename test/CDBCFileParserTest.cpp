@@ -5,7 +5,8 @@
 
 class DBCProcessorInitializerMock : public IDBCInfoBuilder
 {
-  MOCK_METHOD4(  AddMessage, void( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender ) );
+  MOCK_METHOD1( SetVersionInfo, void ( const std::string& versionInfo) );
+  MOCK_METHOD4( AddMessage, void( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender ) );
   MOCK_METHOD7( AddSignal, void (const std::string& ,
                           const unsigned int ,
                           const size_t ,

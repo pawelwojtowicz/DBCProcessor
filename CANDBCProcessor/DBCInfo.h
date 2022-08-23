@@ -16,4 +16,6 @@ struct DBCInfo
   tPropertyMap processorPropertyMap;
 
   tPropertyMap propertyTypesMap;
+
+  std::string dbcVersion;
 };

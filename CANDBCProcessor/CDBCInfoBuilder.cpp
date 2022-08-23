@@ -10,6 +10,8 @@ CDBCInfoBuilder::CDBCInfoBuilder( DBCInfo& dbcInfo)
 
 bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
 {
+  m_dbcInfo.dbcVersion = "";
+  
   CDBCFileParser fileParser(*this);
   for( const auto& fileName : dbcList )
   {
@@ -18,6 +20,19 @@ bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
 
   return true;
 }
+
+void CDBCInfoBuilder::SetVersionInfo( const std::string& versionInfo)
+{
+  if (!m_dbcInfo.dbcVersion.empty() )
+  { 
+    m_dbcInfo.dbcVersion = m_dbcInfo.dbcVersion + "//"+ versionInfo;
+  }
+  else
+  {
+    m_dbcInfo.dbcVersion = versionInfo;
+  }
+}
+
 
 void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )
 {

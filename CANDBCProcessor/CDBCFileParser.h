@@ -24,6 +24,7 @@ private:
   std::regex m_defineMsgProperty;
   std::regex m_defineSignalProperty;
   std::regex m_signalValueMapper;
+  std::regex m_versionInfo;
 
   IDBCInfoBuilder& m_rDBCProcessorInitializer;
 

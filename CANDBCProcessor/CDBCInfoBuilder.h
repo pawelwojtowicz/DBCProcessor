@@ -14,6 +14,8 @@ public:
 
 private:
   //Implementation of IDBCEngineInit
+  void SetVersionInfo( const std::string& versionInfo) override;
+
   void AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender ) override;
 
   void AddSignal( const std::string& name,

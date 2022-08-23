@@ -21,6 +21,7 @@ CDBCFileParser::CDBCFileParser( IDBCInfoBuilder& engineInitializer )
 , m_defineMsgProperty("^BA_\\s\\\"([a-zA-Z0-9]*)\\\" BO_ ([0-9]*) (.*);")
 , m_defineSignalProperty("^BA_\\s\\\"([a-zA-Z0-9]*)\\\" SG_ ([0-9]*) ([a-zA-Z0-9_]*) (.*);")
 , m_signalValueMapper("^VAL_ ([0-9]+) ([a-zA-Z0-9_]+) ((?:[0-9]+) (?:\\\".+\\\")\\s*)+;")
+, m_versionInfo("^VERSION \\\"(\\w*)\\\"")
 , m_rDBCProcessorInitializer( engineInitializer )
 {
 
@@ -210,6 +211,10 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
         const std::string& initializerString = match[3];
 
         m_rDBCProcessorInitializer.SetSignalValueDictionary(msgId,signalName,initializerString);
+      }
+      else if ( std::regex_search( dbcLine, match, m_versionInfo) )
+      {
+        m_rDBCProcessorInitializer.SetVersionInfo( match[1]);
       }
       retVal = true;
     }

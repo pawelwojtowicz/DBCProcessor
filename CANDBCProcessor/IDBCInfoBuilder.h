@@ -5,6 +5,7 @@
 class IDBCInfoBuilder
 {
 public:
+  virtual void SetVersionInfo( const std::string& versionInfo) = 0;
   virtual void AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender ) = 0;
 
   virtual void AddSignal( const std::string& name,

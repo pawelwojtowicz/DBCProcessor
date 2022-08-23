@@ -30,6 +30,8 @@ TEST( CCANMessageProcessor , Basic_ProcessKnownMessage )
 
   uint64_t canData = 0x1122334455667788;
 
+  EXPECT_EQ( canProcessor.GetDBCVersion(), "TEST_VERSION");
+
 
   EXPECT_TRUE( canProcessor.ProcessCANMessage( 0x00F004, canData) ) ;
 }
