@@ -7,7 +7,6 @@
 
 struct DBCInfo
 {
-  using tPropertyMap = std::map<std::string, std::string>;
   using tMsgId2Message = std::map<unsigned int, std::shared_ptr<CMessageTemplate>>;
 
   tMsgId2Message msgId2message;

@@ -11,7 +11,7 @@ CDBCInfoBuilder::CDBCInfoBuilder( DBCInfo& dbcInfo)
 bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
 {
   m_dbcInfo.dbcVersion = "";
-  
+
   CDBCFileParser fileParser(*this);
   for( const auto& fileName : dbcList )
   {
@@ -104,12 +104,12 @@ void CDBCInfoBuilder::SetMessagePropertyType( const std::string& propertyName, c
 
 void CDBCInfoBuilder::SetGeneralPropertyType( const std::string& propertyName, const std::string& propertyType)
 {
-  m_dbcInfo.propertyTypesMap.insert( DBCInfo::tPropertyMap::value_type(propertyName,propertyType));
+  m_dbcInfo.propertyTypesMap.insert( tPropertyMap::value_type(propertyName,propertyType));
 }
 
 void CDBCInfoBuilder::SetDefaultPropertyValue( const std::string& propertyName, const std::string& defaultValue )
 {
-  m_dbcInfo.processorPropertyMap.insert(DBCInfo::tPropertyMap::value_type(propertyName,defaultValue));
+  m_dbcInfo.processorPropertyMap.insert(tPropertyMap::value_type(propertyName,defaultValue));
 }
 
 void CDBCInfoBuilder::SetMessageProperty( const std::string& propertyName, const unsigned int msgId, const std::string& propertyValue )

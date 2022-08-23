@@ -1,5 +1,8 @@
 #pragma once
+#include <map>
 #include <string>
+
+using tPropertyMap = std::map<std::string, std::string>;
 
 static const std::string emptyString = std::string();
 static const int cMultiplexerIndexField = -1;

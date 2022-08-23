@@ -17,7 +17,7 @@ void CSignalValueTemplate::SetDescription( const std::string& description)
 
 void CSignalValueTemplate::AddProperty( const std::string& propertyName,  const std::string& propertyValue )
 {
-  m_signalPropertyMap.insert(CValue::tSignalPropertyMap::value_type(propertyName, propertyValue) );
+  m_signalPropertyMap.insert(tPropertyMap::value_type(propertyName, propertyValue) );
 }
 
 void CSignalValueTemplate::UpdateValue( const uint64_t& rawValue )

@@ -11,8 +11,6 @@ class ISignalListener;
 
 class CMessage
 {
-protected:
-  using tMessagePropertyMap = std::map<std::string, std::string>;
 public:
   CMessage( const int msgId, const std::string& name, size_t msgSize, const std::string& sender );
   virtual ~CMessage();
@@ -27,5 +25,5 @@ protected:
   std::string m_description;
 
 
-  tMessagePropertyMap m_messagePropertyMap;
+  tPropertyMap m_messagePropertyMap;
 };

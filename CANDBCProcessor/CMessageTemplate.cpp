@@ -58,7 +58,7 @@ void CMessageTemplate::SetSignalDescription( const std::string& signalName , con
 
 void CMessageTemplate::AddMessageProperty( const std::string& name, const std::string& value)
 {
-  m_messagePropertyMap.insert( tMessagePropertyMap::value_type(name, value));
+  m_messagePropertyMap.insert( tPropertyMap::value_type(name, value));
 }
 
 void CMessageTemplate::ProcessMessage( const uint64_t& msg , size_t msgSize )

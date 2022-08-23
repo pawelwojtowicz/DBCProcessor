@@ -3,11 +3,10 @@
 #include <memory>
 #include <map>
 #include "CValueDictionary.h"
+#include "DBCProcessor.h"
 
 class CValue
 {
-protected:
-  using tSignalPropertyMap = std::map<std::string, std::string>;
 public:
   CValue( const std::string& name, float offset , float scale, float min, float max , const std::string& unit, const std::string& receiver);
   virtual ~CValue();
@@ -31,7 +30,7 @@ protected:
   float m_scale;
   float m_min;
   float m_max;
-  tSignalPropertyMap m_signalPropertyMap;
+  tPropertyMap m_signalPropertyMap;
 
   std::shared_ptr<CValueDictionary> m_valueDictionary;
 
