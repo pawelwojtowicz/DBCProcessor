@@ -6,4 +6,5 @@ BO_ 16612608 FMS1: 8 Vector__XXX
  SG_ 46_AuxillaryAirPressure m3 : 4|3@0+ (1,0) [0|7] "" Vector__XXX
  SG_ 61_EngineEmissionFilter m4 : 4|3@0+ (1,0) [0|7] "" Vector__XXX
 
-VAL_ 8 Fence1 0 "Unknown" 1 "Inside" 2 "Outside" ;
+VAL_ 16612608 01_CollingAirConditioning 0 "Unknown" 1 "Inside" 2 "Outside" ;
+VAL_ 16612608 46_AuxillaryAirPressure 0 "Unknown" 1 "Inside" 2 "Outside" 4 "HereAndThere";

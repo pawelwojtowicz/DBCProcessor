@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include "CValueDictionary.h"
 
 class CValue
 {
@@ -31,6 +32,8 @@ protected:
   float m_min;
   float m_max;
   tSignalPropertyMap m_signalPropertyMap;
+
+  std::shared_ptr<CValueDictionary> m_valueDictionary;
 
   uint64_t m_rawValue;
   float m_value;

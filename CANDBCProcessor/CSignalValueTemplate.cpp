@@ -25,3 +25,8 @@ void CSignalValueTemplate::UpdateValue( const uint64_t& rawValue )
   m_rawValue = rawValue;
   m_value = m_offset + m_rawValue * m_scale;
 }
+
+void CSignalValueTemplate::SetValueDictionary( const std::string& dictionaryInitializerString)
+{
+  m_valueDictionary = std::make_shared<CValueDictionary>(dictionaryInitializerString);
+}

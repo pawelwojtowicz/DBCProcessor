@@ -205,8 +205,11 @@ bool CDBCFileParser::ReadDBCFile( const std::string& filename )
       else if ( std::regex_search( dbcLine, match, m_signalValueMapper) )
       {
         const std::string& msgId_s = match[1];
+        const unsigned int msgId = atoi( msgId_s.c_str() );
         const std::string& signalName = match[2];
         const std::string& initializerString = match[3];
+
+        m_rDBCProcessorInitializer.SetSignalValueDictionary(msgId,signalName,initializerString);
       }
       retVal = true;
     }

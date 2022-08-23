@@ -105,3 +105,13 @@ bool CMessageTemplate::SubscribeCANSignal( const std::string& signalName, ISigna
   }
   return false;
 }
+
+void CMessageTemplate::SetSignalValueDictonary( const std::string& signalName, const std::string& initializerString)
+{
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
+
+  if (m_signals.end() != signalIter )
+  {
+    std::get<2>(*signalIter).SetValueDictionary(initializerString);
+  }
+}

@@ -9,6 +9,8 @@ public:
 
   void SetDescription( const std::string& description);
 
+  void SetValueDictionary( const std::string& dictionaryInitializerString);
+
   void AddProperty( const std::string& propertyName,  const std::string& propertyValue );
   void UpdateValue( const uint64_t& rawValue );
 };

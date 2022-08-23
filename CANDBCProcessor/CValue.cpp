@@ -1,4 +1,5 @@
 #include "CValue.h"
+#include <iostream>
 
 CValue::CValue( const std::string& name, float offset , float scale, float min, float max, const std::string& unit, const std::string& receiver )
 : m_name(name)
@@ -41,6 +42,10 @@ float CValue::GetValueFLOAT( ) const
 
 std::string CValue::GetValueSTRING( ) const
 {
+  if (m_valueDictionary)
+  {
+    return m_valueDictionary->GetValueForInt( static_cast<int>( m_value));
+  }
   return std::to_string(m_value);
 }
 

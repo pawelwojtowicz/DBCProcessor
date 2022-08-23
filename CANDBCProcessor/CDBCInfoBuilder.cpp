@@ -117,5 +117,9 @@ void CDBCInfoBuilder::SetSignalProperty( const std::string& propertyName, const 
 
 void CDBCInfoBuilder::SetSignalValueDictionary( const int msgId, const std::string& signalName, const std::string& initlizerString)
 {
-  
+  const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
+  if (m_dbcInfo.msgId2message.end() != messageIter )
+  {
+    messageIter->second->SetSignalValueDictonary(signalName, initlizerString);
+  }  
 }

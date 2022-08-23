@@ -23,6 +23,7 @@ public:
   void SetDescription( const std::string& description );
   void SetSignalDescription( const std::string& signalName , const std::string& description);
   void SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue);
+  void SetSignalValueDictonary( const std::string& signalName, const std::string& initializerString);
   void AddMessageProperty( const std::string& name, const std::string& value);
 
   bool SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener);
