@@ -36,4 +36,6 @@ public:
 
   virtual void SetMessageProperty( const std::string& propertyName, const unsigned int msgId, const std::string& propertyValue ) = 0;
   virtual void SetSignalProperty( const std::string& propertyName, const unsigned int msgId, const std::string& signalName, const std::string& propertyValue) = 0;
+  virtual void SetSignalValueDictionary( const int msgId, const std::string& signalName, const std::string& initlizerString) = 0;
+
 };

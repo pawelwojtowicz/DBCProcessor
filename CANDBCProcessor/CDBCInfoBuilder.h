@@ -46,6 +46,8 @@ private:
   void SetMessageProperty( const std::string& propertyName, const unsigned int msgId, const std::string& propertyValue ) override;
   void SetSignalProperty( const std::string& propertyName, const unsigned int msgId, const std::string& signalName, const std::string& propertyValue) override;
 
+  void SetSignalValueDictionary( const int msgId, const std::string& signalName, const std::string& initlizerString) override;
+
 private:
   DBCInfo& m_dbcInfo;
 

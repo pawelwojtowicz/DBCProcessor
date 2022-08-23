@@ -23,6 +23,7 @@ private:
   std::regex m_valueDefaultPropertyRegExp;
   std::regex m_defineMsgProperty;
   std::regex m_defineSignalProperty;
+  std::regex m_signalValueMapper;
 
   IDBCInfoBuilder& m_rDBCProcessorInitializer;
 

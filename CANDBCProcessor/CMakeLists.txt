@@ -13,6 +13,8 @@ add_library( CANDBCProcessor STATIC
   CMessage.h
   CSignal.cpp 
   CSignal.h
+  CValueDictionary.cpp
+  CValueDictionary.h
   CValue.cpp 
   CValue.h
   CSignalValueTemplate.cpp

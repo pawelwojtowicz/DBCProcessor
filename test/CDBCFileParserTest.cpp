@@ -30,7 +30,7 @@ class DBCProcessorInitializerMock : public IDBCInfoBuilder
 
   MOCK_METHOD3( SetMessageProperty, void ( const std::string& propertyName, const unsigned int msgId, const std::string& propertyValue ) );
   MOCK_METHOD4( SetSignalProperty, void( const std::string& propertyName, const unsigned int msgId, const std::string& signalName, const std::string& propertyValue));
-
+  MOCK_METHOD3( SetSignalValueDictionary, void ( const int msgId, const std::string& signalName, const std::string& initlizerString) );
 };
 
 TEST( CDBCFileParser , FileOpenSuccess )

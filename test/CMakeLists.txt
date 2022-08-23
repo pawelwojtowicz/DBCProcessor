@@ -9,6 +9,7 @@ add_executable( dbcProcessorTests
   MultiplexedProcessing.cpp 
   CSignalTest.cpp
   CValueTest.cpp
+  CValueDictionary_Test.cpp
 )
 
 target_link_libraries( dbcProcessorTests CANDBCProcessor gtest gmock gtest_main pthread)

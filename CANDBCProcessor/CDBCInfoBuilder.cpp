@@ -114,3 +114,8 @@ void CDBCInfoBuilder::SetSignalProperty( const std::string& propertyName, const 
         messageIter->second->SetSignalProperty(signalName, propertyName,propertyValue);
     }
 }
+
+void CDBCInfoBuilder::SetSignalValueDictionary( const int msgId, const std::string& signalName, const std::string& initlizerString)
+{
+  
+}
