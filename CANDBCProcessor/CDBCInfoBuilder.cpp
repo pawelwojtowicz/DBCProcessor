@@ -1,6 +1,8 @@
 #include "CDBCInfoBuilder.h"
 #include "DBCInfo.h"
 #include "CDBCFileParser.h"
+#include "CMultiplexedMessageProcessor.h"
+#include "CSimpleMessageProcessor.h"
 #include <iostream>
 
 CDBCInfoBuilder::CDBCInfoBuilder( DBCInfo& dbcInfo)
@@ -17,6 +19,8 @@ bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
   {
       fileParser.ReadDBCFile(fileName);
   }
+
+  FinalizeBuildingParserInfo();
 
   return true;
 }
@@ -137,4 +141,23 @@ void CDBCInfoBuilder::SetSignalValueDictionary( const int msgId, const std::stri
   {
     messageIter->second->SetSignalValueDictonary(signalName, initlizerString);
   }  
+}
+
+void CDBCInfoBuilder::FinalizeBuildingParserInfo()
+{
+  std::shared_ptr<IMessageProcessor> simpleMessageProcessor(  std::make_shared<CSimpleMessageProcessor>() );
+  std::shared_ptr<IMessageProcessor> multiplexedMessageProcessor( std::make_shared<CMultiplexedMessageProcessor>() );
+
+  for ( auto& messageEntry: m_dbcInfo.msgId2message)
+  {
+    if ( !messageEntry.second->IsMultiplexedMessage(  ) )
+    {
+      messageEntry.second->SetMessageProcessor( simpleMessageProcessor );
+    }
+    else
+    {
+      messageEntry.second->SetMessageProcessor( multiplexedMessageProcessor );
+    }
+  }
+
 }

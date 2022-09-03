@@ -51,6 +51,10 @@ private:
   void SetSignalValueDictionary( const int msgId, const std::string& signalName, const std::string& initlizerString) override;
 
 private:
+
+  void FinalizeBuildingParserInfo();
+
+private:
   DBCInfo& m_dbcInfo;
 
   std::shared_ptr<CMessageTemplate> m_currentMessage;

@@ -38,7 +38,6 @@ void CMessageTemplate::AddSignal( const std::string& name,
   if ( cMultiplexerIndexField == multiplexId )
   {
     m_signals.push_front(signalTuple);
-    m_multiplexingSignal = m_signals.begin(); 
   }
   else
   {
@@ -48,11 +47,11 @@ void CMessageTemplate::AddSignal( const std::string& name,
 
 void CMessageTemplate::SetSignalDescription( const std::string& signalName , const std::string& description)
 {
-  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<VALUE>(signalTuple).GetName();} );
 
   if (m_signals.end() != signalIter )
   {
-    std::get<2>(*signalIter).SetDescription( description);
+    std::get<VALUE>(*signalIter).SetDescription( description);
   }
 }
 
@@ -63,44 +62,29 @@ void CMessageTemplate::AddMessageProperty( const std::string& name, const std::s
 
 void CMessageTemplate::ProcessMessage( const uint64_t& msg , size_t msgSize )
 {
-  int multiplexedId(cStaticIndexField);
-  for( auto signal : m_signals)
+  if (m_messageProcessor)
   {
-    const auto signalMultiplexId =  std::get<0>(signal);
-    if (  signalMultiplexId < 0 || multiplexedId == signalMultiplexId )
-    {
-      std::get<2>(signal).UpdateValue( std::get<1>(signal).ExtractValue(msg,msgSize) );
-      
-      if ( signalMultiplexId == cMultiplexerIndexField)
-      {
-        multiplexedId = std::get<2>(signal).GetValueINT();
-      }
-
-      for( auto listener : std::get<3>(signal ) )
-      {
-        listener->NotifySignaReceived( m_msgId, std::get<2>(signal) );
-      }
-    }
+    m_messageProcessor->ProcessMessage(m_msgId, m_signals, msg,msgSize);
   }
 }
 
 void CMessageTemplate::SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue)
 {
-  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<VALUE>(signalTuple).GetName();} );
 
   if (m_signals.end() != signalIter )
   {
-    std::get<2>(*signalIter).AddProperty( propertyName, propertyValue);
+    std::get<VALUE>(*signalIter).AddProperty( propertyName, propertyValue);
   }
 }
 
 bool CMessageTemplate::SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener)
 {
-  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<VALUE>(signalTuple).GetName();} );
 
   if (m_signals.end() != signalIter )
   {
-    std::get<3>(*signalIter).push_back( &signalListener );
+    std::get<LISTENERS>(*signalIter).push_back( &signalListener );
     return true;
   }
   return false;
@@ -108,10 +92,27 @@ bool CMessageTemplate::SubscribeCANSignal( const std::string& signalName, ISigna
 
 void CMessageTemplate::SetSignalValueDictonary( const std::string& signalName, const std::string& initializerString)
 {
-  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<2>(signalTuple).GetName();} );
+  auto signalIter = std::find_if(m_signals.begin(), m_signals.end(), [signalName](const auto& signalTuple) { return signalName == std::get<VALUE>(signalTuple).GetName();} );
 
   if (m_signals.end() != signalIter )
   {
-    std::get<2>(*signalIter).SetValueDictionary(initializerString);
+    std::get<VALUE>(*signalIter).SetValueDictionary(initializerString);
   }
+}
+
+void CMessageTemplate::SetMessageProcessor( std::shared_ptr<IMessageProcessor> msgProcessor )
+{
+  m_messageProcessor = msgProcessor;
+}
+
+bool CMessageTemplate::IsMultiplexedMessage()
+{
+  for ( const auto& signal: m_signals)
+  {
+    if ( cMultiplexerIndexField == std::get<MULTIPLEXERID>(signal) )
+    {
+      return true;
+    }
+  }
+  return false;
 }
