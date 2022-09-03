@@ -27,11 +27,17 @@ bool CCANMessageProcessor::ProcessCANMessage( const unsigned int msgId, const ui
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-    messageIter->second->ProcessMessage(data,8);
+    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+
+    auto specificMessageListeners = std::get<MSG_LISTENERS>(messageIter->second);
+    for (auto& listener: specificMessageListeners)
+    {
+      listener->NotifyMessageReceived(*(std::get<MESSAGE>(messageIter->second)));
+    }
 
     for ( auto& listener: m_dbcInfo.allMessageListeners)
     {
-      listener->NotifyMessageReceived(*(messageIter->second));
+      listener->NotifyMessageReceived(*(std::get<MESSAGE>(messageIter->second)));
     }
 
     return true;
@@ -45,7 +51,7 @@ bool CCANMessageProcessor::ProcessCANMessageByPGN( const unsigned int msgId, con
   const auto messageIter = m_dbcInfo.pgn2message.find( GET_PGN(msgId) );
   if (m_dbcInfo.pgn2message.end() != messageIter )
   {
-    messageIter->second->ProcessMessage(data,8);
+    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
     return true;
   }
 
@@ -57,7 +63,7 @@ bool CCANMessageProcessor::SubscribeCANSignal( const unsigned int msgId, const s
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-    return messageIter->second->SubscribeCANSignal(signalName,listener);
+    return std::get<MESSAGE>(messageIter->second)->SubscribeCANSignal(signalName,listener);
   }
 
   return false;
@@ -67,6 +73,19 @@ void CCANMessageProcessor::SubscribeAllMessages( IMessageListener& listener )
 {
   m_dbcInfo.allMessageListeners.push_back(&listener);
 }
+
+bool CCANMessageProcessor::SubscribeCANMessage( const unsigned int msgId, IMessageListener& listener)
+{
+  const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
+  if (m_dbcInfo.msgId2message.end() != messageIter )
+  {
+    std::get<MSG_LISTENERS>(messageIter->second).push_back(&listener);
+    return true;
+  }
+
+  return false;
+}
+
 
 const std::string& CCANMessageProcessor::GetProperty( const std::string& propertyName)
 {

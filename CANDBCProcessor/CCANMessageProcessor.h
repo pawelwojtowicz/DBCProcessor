@@ -17,6 +17,7 @@ public:
 
   bool SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
   void SubscribeAllMessages( IMessageListener& listener );
+  bool SubscribeCANMessage( const unsigned int msgId, IMessageListener& listener);
 
   const std::string& GetProperty( const std::string& propertyName);
   const std::string& GetPropertyType( const std::string& propertyType);

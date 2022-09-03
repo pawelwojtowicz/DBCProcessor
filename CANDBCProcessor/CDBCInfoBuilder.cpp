@@ -41,8 +41,10 @@ void CDBCInfoBuilder::SetVersionInfo( const std::string& versionInfo)
 void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )
 {
   m_currentMessage = std::make_shared<CMessageTemplate>( canId,name, size, sender);
-  m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,m_currentMessage) );
-  m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , m_currentMessage));
+  DBCInfo::tMessageMapEntry entry = std::make_tuple(m_currentMessage,DBCInfo::tMessageListeners());
+
+  m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,entry) );
+  m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , entry));
 }
 
 void CDBCInfoBuilder::AddSignal( const std::string& name,
@@ -83,7 +85,7 @@ void CDBCInfoBuilder::AddMessageDescription( unsigned int msgId, const std::stri
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-      messageIter->second->SetDescription(description);
+      std::get<MESSAGE>(messageIter->second)->SetDescription(description);
   }
 }
 
@@ -92,7 +94,7 @@ void CDBCInfoBuilder::AddSignalDescription( unsigned int msgId, const std::strin
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-    messageIter->second->SetSignalDescription(valueName,description);
+    std::get<MESSAGE>(messageIter->second)->SetSignalDescription(valueName,description);
   }
 }
 
@@ -121,7 +123,7 @@ void CDBCInfoBuilder::SetMessageProperty( const std::string& propertyName, const
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-    messageIter->second->AddMessageProperty(propertyName,propertyValue);
+    std::get<MESSAGE>(messageIter->second)->AddMessageProperty(propertyName,propertyValue);
   }
 }
 
@@ -130,7 +132,7 @@ void CDBCInfoBuilder::SetSignalProperty( const std::string& propertyName, const 
     const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
     if (m_dbcInfo.msgId2message.end() != messageIter )
     {
-        messageIter->second->SetSignalProperty(signalName, propertyName,propertyValue);
+        std::get<MESSAGE>(messageIter->second)->SetSignalProperty(signalName, propertyName,propertyValue);
     }
 }
 
@@ -139,7 +141,7 @@ void CDBCInfoBuilder::SetSignalValueDictionary( const int msgId, const std::stri
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-    messageIter->second->SetSignalValueDictonary(signalName, initlizerString);
+    std::get<MESSAGE>(messageIter->second)->SetSignalValueDictonary(signalName, initlizerString);
   }  
 }
 
@@ -150,13 +152,13 @@ void CDBCInfoBuilder::FinalizeBuildingParserInfo()
 
   for ( auto& messageEntry: m_dbcInfo.msgId2message)
   {
-    if ( !messageEntry.second->IsMultiplexedMessage(  ) )
+    if ( !std::get<MESSAGE>(messageEntry.second)->IsMultiplexedMessage(  ) )
     {
-      messageEntry.second->SetMessageProcessor( simpleMessageProcessor );
+      std::get<MESSAGE>(messageEntry.second)->SetMessageProcessor( simpleMessageProcessor );
     }
     else
     {
-      messageEntry.second->SetMessageProcessor( multiplexedMessageProcessor );
+      std::get<MESSAGE>(messageEntry.second)->SetMessageProcessor( multiplexedMessageProcessor );
     }
   }
 
