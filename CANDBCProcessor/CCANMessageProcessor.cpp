@@ -28,6 +28,12 @@ bool CCANMessageProcessor::ProcessCANMessage( const unsigned int msgId, const ui
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
     messageIter->second->ProcessMessage(data,8);
+
+    for ( auto& listener: m_dbcInfo.allMessageListeners)
+    {
+      listener->NotifyMessageReceived(*(messageIter->second));
+    }
+
     return true;
   }
 
@@ -55,6 +61,11 @@ bool CCANMessageProcessor::SubscribeCANSignal( const unsigned int msgId, const s
   }
 
   return false;
+}
+
+void CCANMessageProcessor::SubscribeAllMessages( IMessageListener& listener )
+{
+  m_dbcInfo.allMessageListeners.push_back(&listener);
 }
 
 const std::string& CCANMessageProcessor::GetProperty( const std::string& propertyName)

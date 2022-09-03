@@ -16,6 +16,7 @@ public:
   bool ProcessCANMessageByPGN( const unsigned int, const uint64_t& data);
 
   bool SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
+  void SubscribeAllMessages( IMessageListener& listener );
 
   const std::string& GetProperty( const std::string& propertyName);
   const std::string& GetPropertyType( const std::string& propertyType);

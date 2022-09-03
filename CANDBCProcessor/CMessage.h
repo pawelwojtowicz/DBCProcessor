@@ -12,13 +12,18 @@ class ISignalListener;
 class CMessage
 {
 public:
-  CMessage( const int msgId, const std::string& name, size_t msgSize, const std::string& sender );
+  CMessage( const unsigned int msgId, const std::string& name, size_t msgSize, const std::string& sender );
   virtual ~CMessage();
+
+  const unsigned int GetMessageId() const;
+  const std::string& GetMessageName() const;
+  const std::string& GetMessageSender() const;
+  const std::string& GetMessageDescription() const;
 
   const std::string GetMessageProperty( const std::string& name);
 
 protected:
-  int m_msgId;
+  unsigned int m_msgId;
   std::string m_name;
   size_t m_msgSize;
   std::string m_sender;
