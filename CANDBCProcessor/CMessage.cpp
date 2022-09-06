@@ -26,6 +26,12 @@ const std::string& CMessage::GetMessageName() const
   return m_name;
 }
 
+const std::map<std::string, CValue&>& CMessage::GetSignalValue() const
+{
+  return m_values;
+}
+
+
 const std::string& CMessage::GetMessageSender() const
 {
   return m_sender;

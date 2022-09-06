@@ -152,6 +152,8 @@ void CDBCInfoBuilder::FinalizeBuildingParserInfo()
 
   for ( auto& messageEntry: m_dbcInfo.msgId2message)
   {
+    std::get<MESSAGE>(messageEntry.second)->BuildDefaultValueMap();
+
     if ( !std::get<MESSAGE>(messageEntry.second)->IsMultiplexedMessage(  ) )
     {
       std::get<MESSAGE>(messageEntry.second)->SetMessageProcessor( simpleMessageProcessor );

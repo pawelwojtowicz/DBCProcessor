@@ -24,6 +24,7 @@ public:
   void SetSignalValueDictonary( const std::string& signalName, const std::string& initializerString);
   void SetMessageProcessor( std::shared_ptr<IMessageProcessor> msgProcessor );
   void AddMessageProperty( const std::string& name, const std::string& value);
+  void BuildDefaultValueMap();
 
   bool IsMultiplexedMessage();
 

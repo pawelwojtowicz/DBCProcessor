@@ -116,3 +116,11 @@ bool CMessageTemplate::IsMultiplexedMessage()
   }
   return false;
 }
+
+void  CMessageTemplate::BuildDefaultValueMap()
+{
+  for ( auto signal: m_signals)
+  {
+    m_values.insert(std::map<std::string, CValue&>::value_type(std::get<VALUE>(signal).GetName(),std::get<VALUE>(signal)));
+  }
+}

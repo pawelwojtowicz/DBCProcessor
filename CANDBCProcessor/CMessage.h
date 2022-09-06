@@ -17,8 +17,10 @@ public:
 
   const unsigned int GetMessageId() const;
   const std::string& GetMessageName() const;
+  const std::map<std::string, CValue&>& GetSignalValue() const;
   const std::string& GetMessageSender() const;
   const std::string& GetMessageDescription() const;
+
 
   const std::string GetMessageProperty( const std::string& name);
 
@@ -28,6 +30,8 @@ protected:
   size_t m_msgSize;
   std::string m_sender;
   std::string m_description;
+
+  std::map<std::string, CValue&> m_values;
 
 
   tPropertyMap m_messagePropertyMap;
