@@ -12,8 +12,8 @@ public:
 
   const std::string& GetDBCVersion() const;
 
-  bool ProcessCANMessage( const unsigned int, const uint64_t& data);
-  bool ProcessCANMessageByPGN( const unsigned int, const uint64_t& data);
+  bool DispatchCANSignal( const unsigned int, const uint64_t& data);
+  bool DispatchCANSignalByPGN( const unsigned int, const uint64_t& data);
 
   bool SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
   void SubscribeAllMessages( IMessageListener& listener );

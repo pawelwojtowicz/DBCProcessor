@@ -22,7 +22,7 @@ void CCANMessageProcessor::Shutdown()
 
 }
 
-bool CCANMessageProcessor::ProcessCANMessage( const unsigned int msgId, const uint64_t& data)
+bool CCANMessageProcessor::DispatchCANSignal( const unsigned int msgId, const uint64_t& data)
 {
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
@@ -46,7 +46,7 @@ bool CCANMessageProcessor::ProcessCANMessage( const unsigned int msgId, const ui
   return false;
 }
 
-bool CCANMessageProcessor::ProcessCANMessageByPGN( const unsigned int msgId, const uint64_t& data)
+bool CCANMessageProcessor::DispatchCANSignalByPGN( const unsigned int msgId, const uint64_t& data)
 {
   const auto messageIter = m_dbcInfo.pgn2message.find( GET_PGN(msgId) );
   if (m_dbcInfo.pgn2message.end() != messageIter )

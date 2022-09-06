@@ -33,7 +33,7 @@ TEST( CCANMessageProcessor , Basic_ProcessKnownMessage )
   EXPECT_EQ( canProcessor.GetDBCVersion(), "TEST_VERSION");
 
 
-  EXPECT_TRUE( canProcessor.ProcessCANMessage( 0x00F004, canData) ) ;
+  EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00F004, canData) ) ;
 }
 
 TEST( CCANMessageProcessor , Basic_ProcessUnknownMessage )
@@ -44,7 +44,7 @@ TEST( CCANMessageProcessor , Basic_ProcessUnknownMessage )
   uint64_t canData = 0x1122334455667788;
 
 
-  EXPECT_FALSE( canProcessor.ProcessCANMessage( 0x00F001, canData) ) ;
+  EXPECT_FALSE( canProcessor.DispatchCANSignal( 0x00F001, canData) ) ;
 }
 
 TEST( CCANMessageProcessor , Basic_SubscribeKnownMessage )
@@ -84,7 +84,7 @@ TEST( CCANMessageProcessor , Basic_BasicSignalNotification )
   TestListener testUtility;
   EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F004, "EngineSpeed",testUtility ) ) ;
   EXPECT_EQ( testUtility.OutputValue, -1);
-  EXPECT_TRUE( canProcessor.ProcessCANMessage(0x00F004,canData));
+  EXPECT_TRUE( canProcessor.DispatchCANSignal(0x00F004,canData));
   EXPECT_EQ( testUtility.OutputValue, 2728.5);
 
 }

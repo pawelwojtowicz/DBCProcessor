@@ -37,7 +37,7 @@ TEST( IMessageListener , Basic_SubscribeAllMessages )
 
   uint64_t canData = 0x1122334455667710;
   EXPECT_FALSE( messageObserver.dataReceived);
-  EXPECT_TRUE( canProcessor.ProcessCANMessage( 0x00FD7D00, canData) ) ;
+  EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00FD7D00, canData) ) ;
   EXPECT_TRUE( messageObserver.dataReceived);
   EXPECT_EQ( messageObserver.receivedMessageId, 0x00FD7D00);
   EXPECT_EQ( messageObserver.receivedName,"FMS1");
