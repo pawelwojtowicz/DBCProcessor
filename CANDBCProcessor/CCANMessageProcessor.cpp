@@ -61,6 +61,18 @@ bool CCANMessageProcessor::DispatchCANSignalByPGN( const unsigned int msgId, con
 bool CCANMessageProcessor::SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener )
 {
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
+
+  if (m_dbcInfo.msgId2message.end() != messageIter )
+  {
+    return std::get<MESSAGE>(messageIter->second)->SubscribeCANSignal(signalName,listener);
+  }
+
+  return false;
+}
+
+bool CCANMessageProcessor::SubscribeCANSignalByPGN( const unsigned int msgId, const std::string& signalName, ISignalListener& listener )
+{
+  const auto messageIter = m_dbcInfo.pgn2message.find( GET_PGN(msgId) );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
     return std::get<MESSAGE>(messageIter->second)->SubscribeCANSignal(signalName,listener);
