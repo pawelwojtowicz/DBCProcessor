@@ -14,6 +14,9 @@ bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
 {
   m_dbcInfo.dbcVersion = "";
 
+  //adding default message
+  AddMessage( 0 , "Unknown",  8, "-" );
+
   CDBCFileParser fileParser(*this);
   for( const auto& fileName : dbcList )
   {
@@ -152,8 +155,6 @@ void CDBCInfoBuilder::FinalizeBuildingParserInfo()
 
   for ( auto& messageEntry: m_dbcInfo.msgId2message)
   {
-    std::get<MESSAGE>(messageEntry.second)->BuildDefaultValueMap();
-
     if ( !std::get<MESSAGE>(messageEntry.second)->IsMultiplexedMessage(  ) )
     {
       std::get<MESSAGE>(messageEntry.second)->SetMessageProcessor( simpleMessageProcessor );
@@ -162,6 +163,12 @@ void CDBCInfoBuilder::FinalizeBuildingParserInfo()
     {
       std::get<MESSAGE>(messageEntry.second)->SetMessageProcessor( multiplexedMessageProcessor );
     }
+
+    std::get<MESSAGE>(messageEntry.second)->BuildDefaultValueMap();
   }
+
+
+  // Initialize the default message iterator
+  m_dbcInfo.genericMessageIter = m_dbcInfo.msgId2message.find( 0 );
 
 }

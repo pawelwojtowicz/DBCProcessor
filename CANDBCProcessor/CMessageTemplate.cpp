@@ -3,7 +3,10 @@
 #include <utility>
 #include <algorithm>
 #include <iostream>
-CMessageTemplate::CMessageTemplate(const int msgId, const std::string& name, size_t msgSize, const std::string& sender)
+#include <sstream>
+#include <iomanip>
+
+CMessageTemplate::CMessageTemplate(const unsigned int msgId, const std::string& name, size_t msgSize, const std::string& sender)
 : CMessage(msgId, name, msgSize, sender)
 , m_signals()
 
@@ -14,6 +17,11 @@ CMessageTemplate::CMessageTemplate(const int msgId, const std::string& name, siz
 CMessageTemplate::~CMessageTemplate()
 {
 
+}
+
+void CMessageTemplate::SetMessageId( const int msgId)
+{
+  m_msgId = msgId;
 }
 
 void CMessageTemplate::SetDescription( const std::string& description)
@@ -62,6 +70,10 @@ void CMessageTemplate::AddMessageProperty( const std::string& name, const std::s
 
 void CMessageTemplate::ProcessMessage( const uint64_t& msg , size_t msgSize )
 {
+  std::stringstream rawDataBuilder;
+  rawDataBuilder << std::hex << std::setfill('0') << std::setw( msgSize*2) << msg;
+  m_rawData = rawDataBuilder.str();
+
   if (m_messageProcessor)
   {
     m_messageProcessor->ProcessMessage(m_msgId, m_signals, msg,msgSize);

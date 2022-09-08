@@ -15,6 +15,8 @@ public:
   bool DispatchCANSignal( const unsigned int, const uint64_t& data);
   bool DispatchCANSignalByPGN( const unsigned int, const uint64_t& data);
 
+  const CMessage& ProcessMessage( const unsigned int msgId, const uint64_t& data);
+
   bool SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
   void SubscribeAllMessages( IMessageListener& listener );
   bool SubscribeCANMessage( const unsigned int msgId, IMessageListener& listener);

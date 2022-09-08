@@ -40,10 +40,26 @@ bool CCANMessageProcessor::DispatchCANSignal( const unsigned int msgId, const ui
       listener->NotifyMessageReceived(*(std::get<MESSAGE>(messageIter->second)));
     }
 
+    std::cout << "Raw Data: " << std::get<MESSAGE>(messageIter->second)->GetRawData()  << std::endl;
+
     return true;
   }
 
   return false;
+}
+
+const CMessage& CCANMessageProcessor::ProcessMessage( const unsigned int msgId, const uint64_t& data)
+{
+  auto messageIter = m_dbcInfo.msgId2message.find( msgId );
+
+  if (m_dbcInfo.msgId2message.end() == messageIter )
+  {
+    messageIter = m_dbcInfo.genericMessageIter;
+  }
+
+  std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+
+  return *(std::get<MESSAGE>(messageIter->second));
 }
 
 bool CCANMessageProcessor::DispatchCANSignalByPGN( const unsigned int msgId, const uint64_t& data)

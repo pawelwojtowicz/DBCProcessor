@@ -6,7 +6,7 @@
 class CMessageTemplate : public CMessage
 {
 public:
-  CMessageTemplate(const int msgId, const std::string& name, size_t msgSize, const std::string& sender);
+  CMessageTemplate(const unsigned int msgId, const std::string& name, size_t msgSize, const std::string& sender);
   virtual ~CMessageTemplate();
                   
   void AddSignal( const std::string& name,
@@ -24,6 +24,7 @@ public:
   void SetSignalValueDictonary( const std::string& signalName, const std::string& initializerString);
   void SetMessageProcessor( std::shared_ptr<IMessageProcessor> msgProcessor );
   void AddMessageProperty( const std::string& name, const std::string& value);
+  void SetMessageId( const int msgId);
   void BuildDefaultValueMap();
 
   bool IsMultiplexedMessage();

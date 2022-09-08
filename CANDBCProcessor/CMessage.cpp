@@ -5,6 +5,7 @@ CMessage::CMessage( const int unsigned msgId, const std::string& name, size_t ms
 : m_msgId(msgId)
 , m_name(name)
 , m_msgSize(msgSize)
+, m_rawData("")
 , m_sender(sender)
 , m_description("")
 {
@@ -21,9 +22,19 @@ const unsigned int CMessage::GetMessageId() const
   return m_msgId;
 }
 
+const unsigned int CMessage::GetPGN() const
+{
+  return GET_PGN(m_msgId);
+}
+
 const std::string& CMessage::GetMessageName() const
 {
   return m_name;
+}
+
+const std::string& CMessage::GetRawData() const
+{
+  return m_rawData;
 }
 
 const std::map<std::string, CValue&>& CMessage::GetSignalValue() const
