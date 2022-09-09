@@ -33,7 +33,7 @@ TEST( CCANMessageProcessor , Basic_ProcessKnownMessage )
   EXPECT_EQ( canProcessor.GetDBCVersion(), "TEST_VERSION");
 
 
-  EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00F004, canData) ) ;
+  EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00F00400, canData) ) ;
 }
 
 TEST( CCANMessageProcessor , Basic_ProcessUnknownMessage )
@@ -53,7 +53,7 @@ TEST( CCANMessageProcessor , Basic_SubscribeKnownMessage )
   InitializeProcessor( canProcessor);
 
   TestListener testUtility;
-  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F004, "EngineSpeed",testUtility ) ) ;
+  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",testUtility ) ) ;
 }
 
 TEST( CCANMessageProcessor , Basic_SubscribeUnknownMessage )
@@ -71,7 +71,7 @@ TEST( CCANMessageProcessor , Basic_SubscribeKnownMessageAndUknownSignal )
   InitializeProcessor( canProcessor);
 
   TestListener testUtility;
-  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F004, "GroundSpeed",testUtility ) ) ;
+  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F00400, "GroundSpeed",testUtility ) ) ;
 }
 
 TEST( CCANMessageProcessor , Basic_BasicSignalNotification )
@@ -82,9 +82,9 @@ TEST( CCANMessageProcessor , Basic_BasicSignalNotification )
   uint64_t canData = 0x8877665544332211;
 
   TestListener testUtility;
-  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F004, "EngineSpeed",testUtility ) ) ;
+  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",testUtility ) ) ;
   EXPECT_EQ( testUtility.OutputValue, -1);
-  EXPECT_TRUE( canProcessor.DispatchCANSignal(0x00F004,canData));
+  EXPECT_TRUE( canProcessor.DispatchCANSignal(0x00F00400,canData));
   EXPECT_EQ( testUtility.OutputValue, 2728.5);
 
 }

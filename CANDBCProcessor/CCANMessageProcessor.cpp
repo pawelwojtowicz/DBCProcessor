@@ -62,6 +62,20 @@ const CMessage& CCANMessageProcessor::ProcessMessage( const unsigned int msgId, 
   return *(std::get<MESSAGE>(messageIter->second));
 }
 
+const CMessage& CCANMessageProcessor::ProcessMessageByPGN( const unsigned int pgn, const uint64_t& data)
+{
+  auto messageIter = m_dbcInfo.pgn2message.find( pgn );
+
+  if (m_dbcInfo.pgn2message.end() == messageIter )
+  {
+    messageIter = m_dbcInfo.genericMessageIter;
+  }
+
+  std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+
+  return *(std::get<MESSAGE>(messageIter->second));
+}
+
 bool CCANMessageProcessor::DispatchCANSignalByPGN( const unsigned int msgId, const uint64_t& data)
 {
   const auto messageIter = m_dbcInfo.pgn2message.find( GET_PGN(msgId) );

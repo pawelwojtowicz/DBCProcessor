@@ -22,9 +22,7 @@ public:
   const std::map<std::string, CValue&>& GetSignalValue() const;
   const std::string& GetMessageSender() const;
   const std::string& GetMessageDescription() const;
-
-
-  const std::string GetMessageProperty( const std::string& name);
+  const std::string GetMessageProperty( const std::string& name) const;
 
 protected:
   unsigned int m_msgId;
@@ -35,7 +33,6 @@ protected:
   std::string m_description;
 
   std::map<std::string, CValue&> m_values;
-
-
+  
   tPropertyMap m_messagePropertyMap;
 };

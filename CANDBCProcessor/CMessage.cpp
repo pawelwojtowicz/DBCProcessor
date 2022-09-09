@@ -54,7 +54,7 @@ const std::string& CMessage::GetMessageDescription() const
 }
 
 
-const std::string CMessage::GetMessageProperty( const std::string& name)
+const std::string CMessage::GetMessageProperty( const std::string& name) const
 {
   const auto propertyIter = m_messagePropertyMap.find(name);
   if ( m_messagePropertyMap.end() != propertyIter )
