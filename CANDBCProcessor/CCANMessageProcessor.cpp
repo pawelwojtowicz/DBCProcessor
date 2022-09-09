@@ -39,9 +39,6 @@ bool CCANMessageProcessor::DispatchCANSignal( const unsigned int msgId, const ui
     {
       listener->NotifyMessageReceived(*(std::get<MESSAGE>(messageIter->second)));
     }
-
-    std::cout << "Raw Data: " << std::get<MESSAGE>(messageIter->second)->GetRawData()  << std::endl;
-
     return true;
   }
 
@@ -136,5 +133,3 @@ const std::string& CCANMessageProcessor::GetPropertyType( const std::string& pro
   }
   return emptyString;
 }
-
-

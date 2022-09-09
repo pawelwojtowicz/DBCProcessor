@@ -17,22 +17,29 @@ public:
   std::string receivedName = "";
 };
 
-static void InitializeProcessor( CCANMessageProcessor& processor )
-{
-  std::vector<std::string> dbcFilePaths;
-  dbcFilePaths.push_back("../test/testData/multiplexed.dbc");
-  
-  processor.Initialize(dbcFilePaths);
-}
 
-TEST( IMessageListener , Basic_SubscribeAllMessages )
+class MessageListenerTestFixture : public ::testing::Test
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
+public:
+  void SetUp( ) 
+  {
+    std::vector<std::string> dbcFilePaths;
+    dbcFilePaths.push_back("../test/testData/multiplexed.dbc");
 
+    canProcessor.Initialize(dbcFilePaths);  
+  }
+
+  void TearDown( )
+  { 
+  }
 
   MessageObserver messageObserver;
 
+  CCANMessageProcessor canProcessor;
+};
+
+TEST_F( MessageListenerTestFixture , Basic_SubscribeAllMessages )
+{
   canProcessor.SubscribeAllMessages( messageObserver);
 
   uint64_t canData = 0x1122334455667710;
