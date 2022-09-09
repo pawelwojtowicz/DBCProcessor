@@ -48,6 +48,11 @@ void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& 
 
   m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,entry) );
   m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , entry));
+
+  if ( 0 == canId )
+  {
+    m_dbcInfo.genericMessagePtr = m_currentMessage;
+  }
 }
 
 void CDBCInfoBuilder::AddSignal( const std::string& name,
@@ -167,8 +172,8 @@ void CDBCInfoBuilder::FinalizeBuildingParserInfo()
     std::get<MESSAGE>(messageEntry.second)->BuildDefaultValueMap();
   }
 
-
-  // Initialize the default message iterator
-  m_dbcInfo.genericMessageIter = m_dbcInfo.msgId2message.find( 0 );
-
+  if ( m_dbcInfo.genericMessagePtr)
+  {
+    m_dbcInfo.genericMessagePtr = std::make_shared<CMessageTemplate>( 0, "Generic", 8, "-" );
+  }
 }

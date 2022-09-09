@@ -19,7 +19,7 @@ struct DBCInfo
   tMsgId2Message msgId2message;
   tMsgId2Message pgn2message;
 
-  tMsgId2Message::iterator genericMessageIter;
+  std::shared_ptr<CMessageTemplate> genericMessagePtr;
 
   tMessageListeners allMessageListeners;
 
