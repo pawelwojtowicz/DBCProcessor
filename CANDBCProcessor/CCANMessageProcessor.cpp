@@ -39,11 +39,41 @@ bool CCANMessageProcessor::DispatchCANSignal( const unsigned int msgId, const ui
     {
       listener->NotifyMessageReceived(*(std::get<MESSAGE>(messageIter->second)));
     }
-
     return true;
   }
 
   return false;
+}
+
+const CMessage& CCANMessageProcessor::ProcessMessage( const unsigned int msgId, const uint64_t& data)
+{
+  auto messageIter = m_dbcInfo.msgId2message.find( msgId );
+
+  if (m_dbcInfo.msgId2message.end() != messageIter )
+  {
+    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+    return *(std::get<MESSAGE>(messageIter->second));
+  }
+
+  m_dbcInfo.genericMessagePtr->SetMessageId( msgId);
+  m_dbcInfo.genericMessagePtr->ProcessMessage( data , 8 );
+  return *(m_dbcInfo.genericMessagePtr);
+}
+
+const CMessage& CCANMessageProcessor::ProcessMessageByPGN( const unsigned int pgn, const uint64_t& data)
+{
+  auto messageIter = m_dbcInfo.pgn2message.find( pgn );
+
+  if (m_dbcInfo.pgn2message.end() != messageIter )
+  {
+    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+    return *(std::get<MESSAGE>(messageIter->second));
+  }
+
+  //msgID is not entirely correct - now it's not correct.
+  m_dbcInfo.genericMessagePtr->SetMessageId( pgn << 8 );
+  m_dbcInfo.genericMessagePtr->ProcessMessage( data , 8 );
+  return *(m_dbcInfo.genericMessagePtr);
 }
 
 bool CCANMessageProcessor::DispatchCANSignalByPGN( const unsigned int msgId, const uint64_t& data)
@@ -118,5 +148,3 @@ const std::string& CCANMessageProcessor::GetPropertyType( const std::string& pro
   }
   return emptyString;
 }
-
-

@@ -6,117 +6,87 @@
 class TestListener : public ISignalListener
 {
 public:
-virtual void NotifySignaReceived( const unsigned int msgId, const CValue& value )
-{
-  msgId;
-  OutputValue = value.GetValueFLOAT();
-}
+  virtual void NotifySignaReceived( const unsigned int msgId, const CValue& value )
+  {
+    msgId;
+    OutputValue = value.GetValueFLOAT();
+  }
 
-float OutputValue = -1;
-
+  float OutputValue = -1;
 };
 
-static void InitializeProcessor( CCANMessageProcessor& processor )
-{
-  std::vector<std::string> dbcFilePaths;
-  dbcFilePaths.push_back("../test/testData/basic.dbc");
-  processor.Initialize(dbcFilePaths);
-}
 
-TEST( CCANMessageProcessor , Basic_ProcessKnownMessage )
+class BasicProcessorTests : public testing::Test
 {
+public:
+  void SetUp()
+  {
+    std::vector<std::string> dbcFilePaths;
+    dbcFilePaths.push_back("../test/testData/basic.dbc");
+    canProcessor.Initialize(dbcFilePaths);
+  }
+
+  TestListener testUtility;
+
   CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
+};
 
+
+TEST_F( BasicProcessorTests , Basic_ProcessKnownMessage )
+{
   uint64_t canData = 0x1122334455667788;
 
   EXPECT_EQ( canProcessor.GetDBCVersion(), "TEST_VERSION");
-
-
-  EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00F004, canData) ) ;
+  EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00F00400, canData) ) ;
 }
 
-TEST( CCANMessageProcessor , Basic_ProcessUnknownMessage )
+TEST_F( BasicProcessorTests , Basic_ProcessUnknownMessage )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
   uint64_t canData = 0x1122334455667788;
-
-
   EXPECT_FALSE( canProcessor.DispatchCANSignal( 0x00F001, canData) ) ;
 }
 
-TEST( CCANMessageProcessor , Basic_SubscribeKnownMessage )
+TEST_F( BasicProcessorTests , Basic_SubscribeKnownMessage )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
-  TestListener testUtility;
-  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F004, "EngineSpeed",testUtility ) ) ;
+  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",testUtility ) ) ;
 }
 
-TEST( CCANMessageProcessor , Basic_SubscribeUnknownMessage )
+TEST_F( BasicProcessorTests , Basic_SubscribeUnknownMessage )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
-  TestListener testUtility;
   EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F054, "EngineSpeed",testUtility ) ) ;
 }
 
-TEST( CCANMessageProcessor , Basic_SubscribeKnownMessageAndUknownSignal )
+TEST_F( BasicProcessorTests , Basic_SubscribeKnownMessageAndUknownSignal )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
-  TestListener testUtility;
-  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F004, "GroundSpeed",testUtility ) ) ;
+  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F00400, "GroundSpeed",testUtility ) ) ;
 }
 
-TEST( CCANMessageProcessor , Basic_BasicSignalNotification )
+TEST_F( BasicProcessorTests , Basic_BasicSignalNotification )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
   uint64_t canData = 0x8877665544332211;
 
-  TestListener testUtility;
-  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F004, "EngineSpeed",testUtility ) ) ;
+  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",testUtility ) ) ;
   EXPECT_EQ( testUtility.OutputValue, -1);
-  EXPECT_TRUE( canProcessor.DispatchCANSignal(0x00F004,canData));
+  EXPECT_TRUE( canProcessor.DispatchCANSignal(0x00F00400,canData));
   EXPECT_EQ( testUtility.OutputValue, 2728.5);
-
 }
 
-TEST( CCANMessageProcessor , GeneralPropertyFoundProperty )
+TEST_F( BasicProcessorTests , GeneralPropertyFoundProperty )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
   EXPECT_EQ(canProcessor.GetProperty("ProtocolType"),"J1939");
 }
 
-TEST( CCANMessageProcessor , GeneralPropertyNotFoundProperty )
+TEST_F( BasicProcessorTests , GeneralPropertyNotFoundProperty )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
   EXPECT_EQ(canProcessor.GetProperty("ProtocolShout"),"");
 }
 
-TEST( CCANMessageProcessor , GeneralPropertyTypeFoundProperty )
+TEST_F( BasicProcessorTests , GeneralPropertyTypeFoundProperty )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
   EXPECT_EQ(canProcessor.GetPropertyType("DatabaseCompiler"),"STRING");
 }
 
-TEST( CCANMessageProcessor , GeneralPropertyTypeNotFoundProperty )
+TEST_F( BasicProcessorTests , GeneralPropertyTypeNotFoundProperty )
 {
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
   EXPECT_EQ(canProcessor.GetPropertyType("ProtocolShout"),"");
 }

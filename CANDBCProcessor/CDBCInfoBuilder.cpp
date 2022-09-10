@@ -14,6 +14,9 @@ bool CDBCInfoBuilder::BuildDBCInfo(const std::vector<std::string>& dbcList)
 {
   m_dbcInfo.dbcVersion = "";
 
+  //adding default message
+  AddMessage( 0 , "Unknown",  8, "-" );
+
   CDBCFileParser fileParser(*this);
   for( const auto& fileName : dbcList )
   {
@@ -45,6 +48,11 @@ void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& 
 
   m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,entry) );
   m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , entry));
+
+  if ( 0 == canId )
+  {
+    m_dbcInfo.genericMessagePtr = m_currentMessage;
+  }
 }
 
 void CDBCInfoBuilder::AddSignal( const std::string& name,
@@ -153,8 +161,6 @@ void CDBCInfoBuilder::FinalizeBuildingParserInfo()
 
   for ( auto& messageEntry: m_dbcInfo.msgId2message)
   {
-    std::get<MESSAGE>(messageEntry.second)->BuildDefaultValueMap();
-
     if ( !std::get<MESSAGE>(messageEntry.second)->IsMultiplexedMessage(  ) )
     {
       std::get<MESSAGE>(messageEntry.second)->SetMessageProcessor( simpleMessageProcessor );
@@ -163,6 +169,12 @@ void CDBCInfoBuilder::FinalizeBuildingParserInfo()
     {
       std::get<MESSAGE>(messageEntry.second)->SetMessageProcessor( multiplexedMessageProcessor );
     }
+
+    std::get<MESSAGE>(messageEntry.second)->BuildDefaultValueMap();
   }
 
+  if ( m_dbcInfo.genericMessagePtr)
+  {
+    m_dbcInfo.genericMessagePtr = std::make_shared<CMessageTemplate>( 0, "Generic", 8, "-" );
+  }
 }

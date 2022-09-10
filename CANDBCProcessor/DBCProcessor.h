@@ -2,6 +2,8 @@
 #include <map>
 #include <string>
 
+#define GET_PGN( x ) (x & 0x00FFFF00)>> 8
+
 using tPropertyMap = std::map<std::string, std::string>;
 
 static const std::string emptyString = std::string();

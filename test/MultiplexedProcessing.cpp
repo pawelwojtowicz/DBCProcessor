@@ -5,7 +5,25 @@
 
 #include <iostream>
 
-class TestListener1 : public ISignalListener
+class MultiplexedProcessing : public ::testing::Test
+{
+public:
+  void SetUp( ) 
+  {
+    std::vector<std::string> dbcFilePaths;
+    dbcFilePaths.push_back("../test/testData/multiplexed.dbc");
+
+    canProcessor.Initialize(dbcFilePaths);  
+  }
+
+  void TearDown( )
+  { 
+  }
+
+  CCANMessageProcessor canProcessor;
+};
+
+class MultiplexerListener : public ISignalListener
 {
 public:
 virtual void NotifySignaReceived( const unsigned int msgId, const CValue& value )
@@ -22,23 +40,11 @@ std::string SignalName = std::string();
 std::string OutputValueString = std::string();
 };
 
-static void InitializeProcessor( CCANMessageProcessor& processor )
+TEST_F( MultiplexedProcessing , Basic_ProcessKnownMessage )
 {
-  std::vector<std::string> dbcFilePaths;
-  dbcFilePaths.push_back("../test/testData/multiplexed.dbc");
-  
-  processor.Initialize(dbcFilePaths);
-}
-
-TEST( CCANMessageProcessor_MultiplexedProcessing , Basic_ProcessKnownMessage )
-{
-  CCANMessageProcessor canProcessor;
-  InitializeProcessor( canProcessor);
-
   uint64_t canData = 0x1122334455667710;
 
-  TestListener1 multiplexerListener;
-
+  MultiplexerListener multiplexerListener;
 
   EXPECT_TRUE( canProcessor.SubscribeCANSignal( 0x00FD7D00, "01_CollingAirConditioning", multiplexerListener));
   EXPECT_TRUE( canProcessor.SubscribeCANSignal( 0x00FD7D00, "16_ReadFogLights", multiplexerListener));
@@ -69,6 +75,4 @@ TEST( CCANMessageProcessor_MultiplexedProcessing , Basic_ProcessKnownMessage )
   canData = 0x4122334455667744;
   EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00FD7D00, canData) ) ;
   EXPECT_EQ( multiplexerListener.SignalName, "61_EngineEmissionFilter");
-
 }
-

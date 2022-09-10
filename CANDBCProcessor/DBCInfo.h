@@ -5,7 +5,7 @@
 #include "CMessageTemplate.h"
 #include "IMessageListener.h"
 
-#define GET_PGN( x ) (x & 0x00FFFF00)>> 8
+
 #define MESSAGE 0
 #define MSG_LISTENERS 1
 
@@ -18,6 +18,8 @@ struct DBCInfo
 
   tMsgId2Message msgId2message;
   tMsgId2Message pgn2message;
+
+  std::shared_ptr<CMessageTemplate> genericMessagePtr;
 
   tMessageListeners allMessageListeners;
 

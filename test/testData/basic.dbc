@@ -1,6 +1,6 @@
 VERSION "TEST_VERSION"
 
-BO_ 61444 EEC1: 8 [sender]
+BO_ 15729664 EEC1: 8 [sender]
  SG_ EngineSpeed : 24|16@1+ (0.125,0) [0|8031.875] "rpm" [receiver]
 
 BA_ "ProtocolType" "J1939";
