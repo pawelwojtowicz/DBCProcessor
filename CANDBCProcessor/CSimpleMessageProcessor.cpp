@@ -1,14 +1,18 @@
 #include "CSimpleMessageProcessor.h"
+#include "ISignalListener.h"
 
-void CSimpleMessageProcessor::ProcessMessage( const unsigned int msgId, tSignalList& signals, const uint64_t& msg , size_t msgSize )
+void CSimpleMessageProcessor::ProcessMessage( CMessageTemplate& message, const uint64_t& data , size_t msgSize )
 {
+  message.SetRawData(data);
+
+  auto& signals( message.GetMessageSignals() );
   for( auto signal : signals)
   {
-    std::get<VALUE>(signal).UpdateValue( std::get<SIGNAL>(signal).ExtractValue(msg,msgSize) );
+    std::get<VALUE>(signal).UpdateValue( std::get<SIGNAL>(signal).ExtractValue(data,msgSize) );
 
     for( auto listener : std::get<LISTENERS>(signal ) )
     {
-      listener->NotifySignalReceived( msgId, std::get<VALUE>(signal) );
+      listener->NotifySignalReceived( message.GetMessageId(), std::get<VALUE>(signal) );
     }
   }
 }

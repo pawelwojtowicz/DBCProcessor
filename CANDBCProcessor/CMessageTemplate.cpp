@@ -76,16 +76,12 @@ void CMessageTemplate::AddMessageProperty( const std::string& name, const std::s
   m_messagePropertyMap.insert( tPropertyMap::value_type(name, value));
 }
 
-void CMessageTemplate::ProcessMessage( const uint64_t& msg , size_t msgSize )
+void CMessageTemplate::SetRawData( const uint64_t& rawData)
 {
   std::stringstream rawDataBuilder;
-  rawDataBuilder << std::hex << std::setfill('0') << std::setw( msgSize*2) << msg;
+  int msgSize = 8;//think how to set up the value in a correct way (dynamically)
+  rawDataBuilder << std::hex << std::setfill('0') << std::setw( msgSize*2) << rawData;
   m_rawData = rawDataBuilder.str();
-
-  if (m_messageProcessor)
-  {
-    m_messageProcessor->ProcessMessage(m_msgId, m_signals, msg,msgSize);
-  }
 }
 
 void CMessageTemplate::SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue)
@@ -120,11 +116,6 @@ void CMessageTemplate::SetSignalValueDictonary( const std::string& signalName, c
   }
 }
 
-void CMessageTemplate::SetMessageProcessor( std::shared_ptr<IMessageProcessor> msgProcessor )
-{
-  m_messageProcessor = msgProcessor;
-}
-
 bool CMessageTemplate::IsMultiplexedMessage()
 {
   for ( const auto& signal: m_signals)
@@ -143,4 +134,9 @@ void  CMessageTemplate::BuildDefaultValueMap()
   {
     m_values.insert(std::map<std::string, CValue&>::value_type(std::get<VALUE>(signal).GetName(),std::get<VALUE>(signal)));
   }
+}
+
+CMessageTemplate::tSignalList& CMessageTemplate::GetMessageSignals()
+{
+  return m_signals;
 }

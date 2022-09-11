@@ -27,8 +27,8 @@ bool CCANMessageProcessor::DispatchCANSignal( const unsigned int msgId, const ui
   const auto messageIter = m_dbcInfo.msgId2message.find( msgId );
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
-
+    std::get<PROCESSOR>(messageIter->second)->ProcessMessage(*(std::get<MESSAGE>(messageIter->second)),data,8);
+  
     auto specificMessageListeners = std::get<MSG_LISTENERS>(messageIter->second);
     for (auto& listener: specificMessageListeners)
     {
@@ -51,12 +51,12 @@ const CMessage& CCANMessageProcessor::ProcessMessage( const unsigned int msgId, 
 
   if (m_dbcInfo.msgId2message.end() != messageIter )
   {
-    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+    std::get<PROCESSOR>(messageIter->second)->ProcessMessage(*(std::get<MESSAGE>(messageIter->second)),data,8);
     return *(std::get<MESSAGE>(messageIter->second));
   }
 
   m_dbcInfo.genericMessagePtr->SetMessageId( msgId);
-  m_dbcInfo.genericMessagePtr->ProcessMessage( data , 8 );
+  m_dbcInfo.genericMessagePtr->SetRawData( data );
   return *(m_dbcInfo.genericMessagePtr);
 }
 
@@ -66,13 +66,11 @@ const CMessage& CCANMessageProcessor::ProcessMessageByPGN( const unsigned int pg
 
   if (m_dbcInfo.pgn2message.end() != messageIter )
   {
-    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+    std::get<PROCESSOR>(messageIter->second)->ProcessMessage(*(std::get<MESSAGE>(messageIter->second)),data,8);
     return *(std::get<MESSAGE>(messageIter->second));
   }
-
-  //msgID is not entirely correct - now it's not correct.
-  m_dbcInfo.genericMessagePtr->SetMessageId( pgn << 8 );
-  m_dbcInfo.genericMessagePtr->ProcessMessage( data , 8 );
+  m_dbcInfo.genericMessagePtr->SetPGN( pgn );
+  m_dbcInfo.genericMessagePtr->SetRawData( data );
   return *(m_dbcInfo.genericMessagePtr);
 }
 
@@ -81,7 +79,7 @@ bool CCANMessageProcessor::DispatchCANSignalByPGN( const unsigned int msgId, con
   const auto messageIter = m_dbcInfo.pgn2message.find( msgId );
   if (m_dbcInfo.pgn2message.end() != messageIter )
   {
-    std::get<MESSAGE>(messageIter->second)->ProcessMessage(data,8);
+    std::get<PROCESSOR>(messageIter->second)->ProcessMessage(*(std::get<MESSAGE>(messageIter->second)),data,8);
     return true;
   }
 

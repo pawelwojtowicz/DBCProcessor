@@ -1,8 +1,8 @@
 #pragma once
-#include "MessageDeserializerData.h"
+#include "CMessageTemplate.h"
 
 class IMessageProcessor
 {
 public:
-  virtual void ProcessMessage( const unsigned int msgId, tSignalList& signals, const uint64_t& msg , size_t msgSize ) = 0;
+  virtual void ProcessMessage( CMessageTemplate& message, const uint64_t& msg , size_t msgSize ) = 0;
 };

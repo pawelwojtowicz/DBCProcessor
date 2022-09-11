@@ -12,11 +12,12 @@ public:
 
   const std::string& GetDBCVersion() const;
 
+  const CMessage& ProcessMessage( const unsigned int msgId, const uint64_t& data);
+  const CMessage& ProcessMessageByPGN( const unsigned int pgn, const uint64_t& data);
+
   bool DispatchCANSignal( const unsigned int, const uint64_t& data);
   bool DispatchCANSignalByPGN( const unsigned int, const uint64_t& data);
 
-  const CMessage& ProcessMessage( const unsigned int msgId, const uint64_t& data);
-  const CMessage& ProcessMessageByPGN( const unsigned int pgn, const uint64_t& data);
 
   bool SubscribeCANSignal( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
   bool SubscribeCANSignalByPGN( const unsigned int msgId, const std::string& signalName, ISignalListener& listener );
