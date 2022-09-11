@@ -26,6 +26,7 @@ public:
 
 protected:
   unsigned int m_msgId;
+  unsigned int m_pgn;
   std::string m_name;
   size_t m_msgSize;
   std::string m_rawData;

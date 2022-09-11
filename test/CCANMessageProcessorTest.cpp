@@ -1,20 +1,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <CCANMessageProcessor.h>
-#include <ISignalListener.h>
+#include "CSignalListenerMock.h"
 
-class TestListener : public ISignalListener
-{
-public:
-  virtual void NotifySignaReceived( const unsigned int msgId, const CValue& value )
-  {
-    msgId;
-    OutputValue = value.GetValueFLOAT();
-  }
-
-  float OutputValue = -1;
-};
-
+using testing::_;
 
 class BasicProcessorTests : public testing::Test
 {
@@ -26,7 +15,7 @@ public:
     canProcessor.Initialize(dbcFilePaths);
   }
 
-  TestListener testUtility;
+  testing::NiceMock<CSignalListenerMock> signalListener;
 
   CCANMessageProcessor canProcessor;
 };
@@ -48,27 +37,35 @@ TEST_F( BasicProcessorTests , Basic_ProcessUnknownMessage )
 
 TEST_F( BasicProcessorTests , Basic_SubscribeKnownMessage )
 {
-  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",testUtility ) ) ;
+  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",signalListener ) ) ;
 }
 
 TEST_F( BasicProcessorTests , Basic_SubscribeUnknownMessage )
 {
-  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F054, "EngineSpeed",testUtility ) ) ;
+  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F054, "EngineSpeed",signalListener ) ) ;
 }
 
 TEST_F( BasicProcessorTests , Basic_SubscribeKnownMessageAndUknownSignal )
 {
-  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F00400, "GroundSpeed",testUtility ) ) ;
+  EXPECT_FALSE( canProcessor.SubscribeCANSignal(0x00F00400, "GroundSpeed",signalListener ) ) ;
 }
 
 TEST_F( BasicProcessorTests , Basic_BasicSignalNotification )
 {
   uint64_t canData = 0x8877665544332211;
 
-  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",testUtility ) ) ;
-  EXPECT_EQ( testUtility.OutputValue, -1);
+  EXPECT_TRUE( canProcessor.SubscribeCANSignal(0x00F00400, "EngineSpeed",signalListener ) ) ;
+
+  float signalValue(0);
+  ON_CALL( signalListener, NotifySignalReceived(_,_) ).WillByDefault(testing::Invoke(
+    [&] (const unsigned int msgId, const CValue& value)
+    {
+      signalValue = value.GetValueFLOAT();
+    }
+  ));
+
   EXPECT_TRUE( canProcessor.DispatchCANSignal(0x00F00400,canData));
-  EXPECT_EQ( testUtility.OutputValue, 2728.5);
+  EXPECT_EQ( signalValue, 2728.5);
 }
 
 TEST_F( BasicProcessorTests , GeneralPropertyFoundProperty )

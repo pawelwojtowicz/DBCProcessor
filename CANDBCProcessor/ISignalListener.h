@@ -8,5 +8,5 @@ public:
   ISignalListener() = default;
   virtual ~ISignalListener() = default;
 
-  virtual void NotifySignaReceived( const unsigned int msgId, const CValue& value ) = 0;
+  virtual void NotifySignalReceived( const unsigned int msgId, const CValue& value ) = 0;
 };

@@ -18,7 +18,7 @@ void CMultiplexedMessageProcessor::ProcessMessage( const unsigned int msgId, tSi
 
       for( auto listener : std::get<LISTENERS>(*signalIter ) )
       {
-        listener->NotifySignaReceived( msgId, std::get<VALUE>(*signalIter) );
+        listener->NotifySignalReceived( msgId, std::get<VALUE>(*signalIter) );
       }
     }
   }

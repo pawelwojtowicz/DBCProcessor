@@ -8,7 +8,7 @@ void CSimpleMessageProcessor::ProcessMessage( const unsigned int msgId, tSignalL
 
     for( auto listener : std::get<LISTENERS>(signal ) )
     {
-      listener->NotifySignaReceived( msgId, std::get<VALUE>(signal) );
+      listener->NotifySignalReceived( msgId, std::get<VALUE>(signal) );
     }
   }
 }

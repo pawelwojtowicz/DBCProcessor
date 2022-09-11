@@ -19,10 +19,18 @@ CMessageTemplate::~CMessageTemplate()
 
 }
 
-void CMessageTemplate::SetMessageId( const int msgId)
+void CMessageTemplate::SetMessageId( const unsigned int msgId)
 {
   m_msgId = msgId;
+  m_pgn = GET_PGN(msgId);
 }
+
+void CMessageTemplate::SetPGN( const unsigned int pgn)
+{
+  m_msgId = 0;
+  m_pgn = pgn;
+}
+
 
 void CMessageTemplate::SetDescription( const std::string& description)
 {
