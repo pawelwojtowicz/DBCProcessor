@@ -1,22 +1,8 @@
 #include <gtest/gtest.h>
 #include <CCANMessageProcessor.h>
-#include <IMessageListener.h>
+#include "CMessageListenerMock.h"
 
-class MessageObserver : public IMessageListener
-{
-public:
-  virtual void NotifyMessageReceived( const CMessage& message)
-  {
-    dataReceived = true;
-    receivedMessageId = message.GetMessageId();
-    receivedName = message.GetMessageName();
-  };
-
-  bool dataReceived = false;
-  unsigned int receivedMessageId = 0;
-  std::string receivedName = "";
-};
-
+using testing::_;
 
 class MessageListenerTestFixture : public ::testing::Test
 {
@@ -33,20 +19,34 @@ public:
   { 
   }
 
-  MessageObserver messageObserver;
+  testing::NiceMock<CMessageListenerMock> messageListener;;
 
   CCANMessageProcessor canProcessor;
 };
 
 TEST_F( MessageListenerTestFixture , Basic_SubscribeAllMessages )
 {
-  canProcessor.SubscribeAllMessages( messageObserver);
+  canProcessor.SubscribeAllMessages( messageListener);
 
   uint64_t canData = 0x1122334455667710;
-  EXPECT_FALSE( messageObserver.dataReceived);
+  bool messageReceived(false);
+  unsigned int receivedMsgId(0);
+  std::string receivedMsgName("");
+
+  ON_CALL( messageListener, NotifyMessageReceived(_) ).WillByDefault(testing::Invoke(
+  [&] (const CMessage& message)
+  {
+    receivedMsgId = message.GetMessageId();
+    receivedMsgName = message.GetMessageName();
+    messageReceived = true;
+  }
+  ));
+
+
   EXPECT_TRUE( canProcessor.DispatchCANSignal( 0x00FD7D00, canData) ) ;
-  EXPECT_TRUE( messageObserver.dataReceived);
-  EXPECT_EQ( messageObserver.receivedMessageId, 0x00FD7D00);
-  EXPECT_EQ( messageObserver.receivedName,"FMS1");
+  EXPECT_TRUE( messageReceived);
+
+  EXPECT_EQ( receivedMsgId, 0x00FD7D00);
+  EXPECT_EQ( receivedMsgName,"FMS1");
 
 }
