@@ -34,3 +34,25 @@
   $ ./test/dbcProcessorTests
   ```
 
+  # Reference
+
+  - Initalization of the DBC
+
+  - Processing CAN messages
+
+  - Dispatching CAN Events
+
+  - Cascade DBC Loading
+    to be implemented
+
+  # Todo
+
+  - cascade dbc loading ( loading multiple dbc files into the processor - with overwriting the properties )
+  - Detailed DBC Processor Logging - provide detailed logging of the processing
+  - DBC validation - procedure, that checks the correctness of the  DBC model loaded from the file
+    1. is there single multiplexing ID in multiplexed messages
+    2. does each message have a message processor
+    3. does the signal fit into the message sizes
+  - Optimize the processing for littleEndian/bigEndian ( throw out the byte shitfting from signal)
+  - review/reconsider the internal structure of the implementation 
+
