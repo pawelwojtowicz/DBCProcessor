@@ -9,7 +9,7 @@
 const std::string dbcBigEndian = std::string("0");
 
 CDBCFileParser::CDBCFileParser( IDBCInfoBuilder& engineInitializer )
-: m_messageRegExp("^BO_ ([0-9]+) ([a-zA-Z0-1_]+): ([0-9]+) (.+)")
+: m_messageRegExp("^BO_ ([0-9]+) ([a-zA-Z0-9_]+): ([0-9]+) (.+)")
 , m_signalRegExp("\\sSG_ ([a-zA-Z0-9_]+) : ([0-9]+)\\|([0-9]+)@([0-9]+)([+|-]) \\(([0-9\\.]+),([0-9\\.]+)\\) \\[([0-9\\.]+)\\|([0-9\\.]+)\\] \\\"(.*)\\\" (.*)")
 , m_multiplexedSignalRegExp("\\sSG_ ([a-zA-Z0-9_]+) ([mM0-9]+) : ([0-9]+)\\|([0-9]+)@([0-9]+)([+|-]) \\(([0-9\\.]+),([0-9\\.]+)\\) \\[([0-9\\.]+)\\|([0-9\\.]+)\\] \\\"(.*)\\\" (.+)")
 , m_messageCommentRegExp("^CM_ BO_ ([0-9]+) \\\"(.*)\\\"")
