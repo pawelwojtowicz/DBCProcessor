@@ -25,7 +25,7 @@ TEST_F( MessageProcessorTest , ProcessMessageByID )
   EXPECT_EQ( message.GetMessageId(), 0xF00400);
   EXPECT_EQ( message.GetPGN(), 0xF004);
 
-  EXPECT_EQ( message.GetRawData(), "8877665544332211");
+  EXPECT_EQ( message.GetRawData(), "1122334455667788");
   EXPECT_TRUE( engineSpeedSignalIter !=  message.GetSignalValue().end() );
   EXPECT_EQ( engineSpeedSignalIter->second.GetName() , "EngineSpeed" );
 }
@@ -39,7 +39,7 @@ TEST_F( MessageProcessorTest , ProcessUnkownMessage )
   EXPECT_EQ( message.GetMessageName(), "Generic");
   EXPECT_EQ( message.GetMessageId(), 0x00F00500);
   EXPECT_EQ( message.GetPGN(), 0x00F005);
-  EXPECT_EQ( message.GetRawData(), "8877665544332211");
+  EXPECT_EQ( message.GetRawData(), "1122334455667788");
 }
 
 
@@ -52,7 +52,7 @@ TEST_F( MessageProcessorTest , ProcessMessageByPGN )
 
   EXPECT_EQ( message.GetMessageName(), "EEC1");
   EXPECT_EQ( message.GetPGN(), 0x00F004);
-  EXPECT_EQ( message.GetRawData(), "8877665544332211");
+  EXPECT_EQ( message.GetRawData(), "1122334455667788");
   EXPECT_TRUE( engineSpeedSignalIter !=  message.GetSignalValue().end() );
   EXPECT_EQ( engineSpeedSignalIter->second.GetName() , "EngineSpeed" );
 
@@ -66,5 +66,5 @@ TEST_F( MessageProcessorTest , ProcessUnkownMessageByPGN )
   EXPECT_EQ( message.GetSignalValue().size(), 0 );
   EXPECT_EQ( message.GetMessageName(), "Generic");
   EXPECT_EQ( message.GetPGN(), 0x00F005);
-  EXPECT_EQ( message.GetRawData(), "8877665544332211");
+  EXPECT_EQ( message.GetRawData(), "1122334455667788");
 }

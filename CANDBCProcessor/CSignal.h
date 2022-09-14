@@ -11,7 +11,7 @@ public:
   CSignal( const int start, const int length, eEndiannes endian );
   virtual ~CSignal();
 
-  uint64_t ExtractValue( const uint64_t& data , size_t dataLength);
+  uint64_t ExtractValue( const uint64_t& data , const uint64_t& reversedData, size_t dataLength);
 
 private:
   int m_bitStart;

@@ -18,21 +18,9 @@ CSignal::~CSignal()
 {
 }
 
-uint64_t CSignal::ExtractValue( const uint64_t& canData , size_t dataLength)
+uint64_t CSignal::ExtractValue( const uint64_t& canData, const uint64_t& reversedData , size_t dataLength)
 {
-  uint64_t rawValue(canData);
-
-  if ( bigEndian == m_endiannes ) 
-  {
-    rawValue = 0;
-    uint64_t workingCopy(canData);
-    for ( int i = 0 ; i < 8 ; ++i )
-    {
-      rawValue <<= 8;
-      rawValue |= ( workingCopy & 0xFFULL );
-      workingCopy >>= 8;
-    }
-  }
-  
+  uint64_t rawValue(bigEndian == m_endiannes ? reversedData : canData);
+ 
   return m_canSignalMask & ( rawValue >> m_bitStart );
 }

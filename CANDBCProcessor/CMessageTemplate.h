@@ -1,11 +1,19 @@
 #pragma once
-#include "MessageDeserializerData.h"
-#include "IMessageProcessor.h"
 #include "CMessage.h"
+
+#define MULTIPLEXERID 0
+#define SIGNAL 1
+#define VALUE 2
+#define LISTENERS 3
+
 
 class CMessageTemplate : public CMessage
 {
 public:
+  using tSignalListeners = std::list<ISignalListener*>;
+  using tSignalTuple = std::tuple<int,CSignal, CSignalValueTemplate, tSignalListeners>;
+  using tSignalList = std::list<tSignalTuple>;
+
   CMessageTemplate(const unsigned int msgId, const std::string& name, size_t msgSize, const std::string& sender);
   virtual ~CMessageTemplate();
                   
@@ -22,17 +30,17 @@ public:
   void SetSignalDescription( const std::string& signalName , const std::string& description);
   void SetSignalProperty( const std::string& signalName, const std::string& propertyName, const std::string& propertyValue);
   void SetSignalValueDictonary( const std::string& signalName, const std::string& initializerString);
-  void SetMessageProcessor( std::shared_ptr<IMessageProcessor> msgProcessor );
   void AddMessageProperty( const std::string& name, const std::string& value);
   void SetMessageId( const unsigned int msgId );
   void SetPGN( const unsigned int pgn);
+  void SetRawData( const uint64_t& rawData);
   void BuildDefaultValueMap();
 
   bool IsMultiplexedMessage();
 
   bool SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener);
-  void ProcessMessage( const uint64_t& msg , size_t msgSize );
+
+  tSignalList& GetMessageSignals();
 private:
-  std::shared_ptr<IMessageProcessor> m_messageProcessor;
   tSignalList m_signals;
 };
