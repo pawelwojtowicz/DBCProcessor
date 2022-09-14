@@ -4,71 +4,81 @@
 TEST( CSignal , BasicDeserialize_BigEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
-  CSignal signalProcessor(16,16, CSignal::bigEndian );
+  uint64_t reversedCanData = 0xfedcba9876543210;
+   CSignal signalProcessor(16,16, CSignal::bigEndian );
 
-  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, 8)) , 0xDCBAUL) ;
+  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, reversedCanData,8)) , 0xDCBAUL) ;
 }
 
 TEST( CSignal , BasicDeserialize_LittleEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(16,16, CSignal::littleEndian );
-  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, 8)) , 0x98BAUL) ;
+  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, reversedCanData, 8)) , 0x98BAUL) ;
 }
 
 TEST( CSignal , ShortDeserialize_BigEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(18,4, CSignal::bigEndian );
-  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, 8) ) , 0x0E) ;
+  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, reversedCanData, 8) ) , 0x0E) ;
 }
 
 TEST( CSignal , ShortDeserialize_LittleEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(18,4, CSignal::littleEndian );    
-  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, 8)) , 0x0E) ;
+  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, reversedCanData, 8)) , 0x0E) ;
 }
 
 TEST( CSignal , ShortDeserialize_BigEndian_Boundary )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(8,16, CSignal::bigEndian );
-  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, 8) ) , 0xFEDC) ;
+  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, reversedCanData, 8) ) , 0xFEDC) ;
 }
 
 TEST( CSignal , ShortDeserialize_LittleEndian_Boundary )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(8,16, CSignal::littleEndian );    
-  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, 8)) , 0xBADC) ;
+  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, reversedCanData, 8)) , 0xBADC) ;
 }
 
 
 TEST( CSignal , ShortDeserializeBetweenBytes_BigEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(30,6, CSignal::bigEndian );
-  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, 8) ) , 0x2A) ;
+  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, reversedCanData, 8) ) , 0x2A) ;
 }
 
 TEST( CSignal , ShortDeserializeBetweenBytes_LittleEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(30,6, CSignal::littleEndian );
-  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, 8)) , 0x1A) ;
+  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, reversedCanData, 8)) , 0x1A) ;
 }
 
 TEST( CSignal , LongDeserializeBetweenBytes_BigEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(30,20, CSignal::bigEndian );
-  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, 8) ) , 0xB72EA) ;
+  EXPECT_EQ( static_cast<unsigned int> (signalProcessor.ExtractValue(candata, reversedCanData, 8) ) , 0xB72EA) ;
 }
 
 TEST( CSignal , LongDeserializeBetweenBytes_LittleEndian )
 {
   uint64_t candata = 0x1032547698BADCFE;
+  uint64_t reversedCanData = 0xfedcba9876543210;
   CSignal signalProcessor(30,20, CSignal::littleEndian );
-  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, 8)) , 0x951DA) ;
+  EXPECT_EQ( static_cast<unsigned int>(signalProcessor.ExtractValue(candata, reversedCanData, 8)) , 0x951DA) ;
 }

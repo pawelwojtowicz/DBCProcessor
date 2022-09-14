@@ -4,7 +4,7 @@
 #include <tuple>
 #include "CMessageTemplate.h"
 #include "IMessageListener.h"
-#include "IMessageProcessor.h"
+#include "CMessageProcessor.h"
 
 
 #define MESSAGE 0
@@ -14,7 +14,7 @@
 struct DBCInfo
 {
   using tMessageListeners = std::list<IMessageListener*>;
-  using tMessageMapEntry = std::tuple<std::shared_ptr<CMessageTemplate>,std::shared_ptr<IMessageProcessor>,tMessageListeners>;
+  using tMessageMapEntry = std::tuple<std::shared_ptr<CMessageTemplate>,std::shared_ptr<CMessageProcessor>,tMessageListeners>;
   using tMsgId2Message = std::map<unsigned int, tMessageMapEntry>;
 
 

@@ -44,7 +44,7 @@ void CDBCInfoBuilder::SetVersionInfo( const std::string& versionInfo)
 void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )
 {
   m_currentMessage = std::make_shared<CMessageTemplate>( canId,name, size, sender);
-  DBCInfo::tMessageMapEntry entry = std::make_tuple(m_currentMessage,std::shared_ptr<IMessageProcessor>(),DBCInfo::tMessageListeners());
+  DBCInfo::tMessageMapEntry entry = std::make_tuple(m_currentMessage,std::shared_ptr<CMessageProcessor>(),DBCInfo::tMessageListeners());
 
   m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,entry) );
   m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , entry));
@@ -156,8 +156,8 @@ void CDBCInfoBuilder::SetSignalValueDictionary( const int msgId, const std::stri
 
 void CDBCInfoBuilder::FinalizeBuildingParserInfo()
 {
-  std::shared_ptr<IMessageProcessor> simpleMessageProcessor(  std::make_shared<CSimpleMessageProcessor>() );
-  std::shared_ptr<IMessageProcessor> multiplexedMessageProcessor( std::make_shared<CMultiplexedMessageProcessor>() );
+  std::shared_ptr<CMessageProcessor> simpleMessageProcessor(  std::make_shared<CSimpleMessageProcessor>() );
+  std::shared_ptr<CMessageProcessor> multiplexedMessageProcessor( std::make_shared<CMultiplexedMessageProcessor>() );
 
   for ( auto& messageEntry: m_dbcInfo.msgId2message)
   {

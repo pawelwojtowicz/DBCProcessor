@@ -28,5 +28,8 @@ public:
   const std::string& GetPropertyType( const std::string& propertyType);
 
 private:
+  uint64_t ReverseBytes( uint64_t canData);
+
+private:
   DBCInfo m_dbcInfo;
 };

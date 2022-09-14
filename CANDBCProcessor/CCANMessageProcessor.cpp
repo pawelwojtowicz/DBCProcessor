@@ -56,7 +56,7 @@ const CMessage& CCANMessageProcessor::ProcessMessage( const unsigned int msgId, 
   }
 
   m_dbcInfo.genericMessagePtr->SetMessageId( msgId);
-  m_dbcInfo.genericMessagePtr->SetRawData( data );
+  m_dbcInfo.genericMessagePtr->SetRawData( ReverseBytes(data) );
   return *(m_dbcInfo.genericMessagePtr);
 }
 
@@ -70,7 +70,7 @@ const CMessage& CCANMessageProcessor::ProcessMessageByPGN( const unsigned int pg
     return *(std::get<MESSAGE>(messageIter->second));
   }
   m_dbcInfo.genericMessagePtr->SetPGN( pgn );
-  m_dbcInfo.genericMessagePtr->SetRawData( data );
+  m_dbcInfo.genericMessagePtr->SetRawData( ReverseBytes(data) );
   return *(m_dbcInfo.genericMessagePtr);
 }
 
@@ -145,4 +145,16 @@ const std::string& CCANMessageProcessor::GetPropertyType( const std::string& pro
     return propertyTypeIter->second;
   }
   return emptyString;
+}
+
+uint64_t CCANMessageProcessor::ReverseBytes( uint64_t canData)
+{
+  uint64_t reversedValue = 0;
+  for ( int i = 0 ; i < 8 ; ++i )
+  {
+    reversedValue <<= 8;
+    reversedValue |= ( canData & 0xFFULL );
+    canData >>= 8;
+  }
+  return reversedValue;
 }

@@ -1,7 +1,7 @@
 #pragma once
-#include "IMessageProcessor.h"
+#include "CMessageProcessor.h"
 
-class CSimpleMessageProcessor : public IMessageProcessor
+class CSimpleMessageProcessor : public CMessageProcessor
 {
 public:
   void ProcessMessage( CMessageTemplate& message, const uint64_t& msg , size_t msgSize ) override;
