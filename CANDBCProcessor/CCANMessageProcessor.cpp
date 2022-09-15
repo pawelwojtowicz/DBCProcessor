@@ -101,7 +101,7 @@ bool CCANMessageProcessor::SubscribeCANSignal( const unsigned int msgId, const s
 bool CCANMessageProcessor::SubscribeCANSignalByPGN( const unsigned int msgId, const std::string& signalName, ISignalListener& listener )
 {
   const auto messageIter = m_dbcInfo.pgn2message.find( msgId );
-  if (m_dbcInfo.msgId2message.end() != messageIter )
+  if (m_dbcInfo.pgn2message.end() != messageIter )
   {
     return std::get<MESSAGE>(messageIter->second)->SubscribeCANSignal(signalName,listener);
   }
