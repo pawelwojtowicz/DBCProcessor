@@ -7,6 +7,7 @@ class ISignalListenerl;
 class CCANMessageProcessor
 {
 public:
+  void Initialize( const std::string& dbcFilePath );
   void Initialize(  const std::vector<std::string>& dbcList );
   void Shutdown();
 

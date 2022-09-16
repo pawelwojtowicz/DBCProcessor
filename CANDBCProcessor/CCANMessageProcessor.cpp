@@ -10,6 +10,13 @@ const std::string& CCANMessageProcessor::GetDBCVersion() const
   return m_dbcInfo.dbcVersion;
 }
 
+void CCANMessageProcessor::Initialize( const std::string& dbcFilePath )
+{
+  std::vector<std::string> dbcList = { dbcFilePath } ;
+  Initialize(dbcList);
+}
+
+
 
 void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList )
 {
