@@ -38,12 +38,17 @@
 
   - Initalization of the DBC
 
+  - Cascade DBC Loading
+    The engine can be initialized by more than one dbc file. If the intialization procedure is executed with a list of the DBC files, the internal model of the parser will be built as an union of models stored in all of the files on the list. The files are processed in a FIFO way (we start with the first element in the vector and progress to the end).
+      The unionizing process follows couple of simple rules, that providing reasonable control over the process.
+      * if CAN Message ID can be found in the model and the name of the message matches to the message name, that is being introduced on the lower level - the messsage existing in the model will be enriched with the message, that is incomming from the parser.
+      * if CAN Message ID can be found in the model but the name of the message does not match to the parsed message record - the message, all of its signals and properties of the message and it's signals will be removed. New record will start from scratch.
+
   - Processing CAN messages
 
   - Dispatching CAN Events
 
-  - Cascade DBC Loading
-    to be implemented
+
 
   # Todo
 

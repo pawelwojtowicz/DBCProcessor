@@ -43,16 +43,40 @@ void CDBCInfoBuilder::SetVersionInfo( const std::string& versionInfo)
 
 void CDBCInfoBuilder::AddMessage( const unsigned int canId , const std::string& name,  size_t size, const std::string& sender )
 {
-  m_currentMessage = std::make_shared<CMessageTemplate>( canId,name, size, sender);
-  DBCInfo::tMessageMapEntry entry = std::make_tuple(m_currentMessage,std::shared_ptr<CMessageProcessor>(),DBCInfo::tMessageListeners());
+  m_currentMessage.reset();
 
-  m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,entry) );
-  m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , entry));
+  auto messageIter = m_dbcInfo.msgId2message.find(canId);
+  if ( m_dbcInfo.msgId2message.end() != messageIter )
+  {
+    if ( name == std::get<MESSAGE>(messageIter->second)->GetMessageName() )
+    {
+      m_currentMessage = std::get<MESSAGE>(messageIter->second);
+    }
+    else
+    {
+      m_dbcInfo.msgId2message.erase(messageIter);
+      auto pgnIter = m_dbcInfo.pgn2message.find(GET_PGN( canId ) );
+      if ( m_dbcInfo.pgn2message.end() != pgnIter )
+      {
+        m_dbcInfo.pgn2message.erase(pgnIter);
+      }
+    }
+  }
+
+  if (!m_currentMessage)
+  {
+    m_currentMessage = std::make_shared<CMessageTemplate>( canId,name, size, sender);
+    DBCInfo::tMessageMapEntry entry = std::make_tuple(m_currentMessage,std::shared_ptr<CMessageProcessor>(),DBCInfo::tMessageListeners());
+
+    m_dbcInfo.msgId2message.insert( DBCInfo::tMsgId2Message::value_type(canId,entry) );
+    m_dbcInfo.pgn2message.insert( DBCInfo::tMsgId2Message::value_type( GET_PGN( canId ) , entry));
+  }
 
   if ( 0 == canId )
   {
     m_dbcInfo.genericMessagePtr = m_currentMessage;
   }
+
 }
 
 void CDBCInfoBuilder::AddSignal( const std::string& name,

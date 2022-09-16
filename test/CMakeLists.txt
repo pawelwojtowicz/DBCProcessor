@@ -12,6 +12,7 @@ add_executable( dbcProcessorTests
   CValueTest.cpp
   CValueDictionary_Test.cpp
   MessageListenerTest.cpp
+  CascadeLoading.cpp
 )
 
 target_link_libraries( dbcProcessorTests CANDBCProcessor gtest gmock gtest_main pthread)
