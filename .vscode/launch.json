@@ -1,0 +1,12 @@
+{
+  "configurations": [
+  {
+    "name": "Debug DBCProcessor GTEST",
+    "type": "cppdbg",
+    "request": "launch",
+    "cwd": "${fileDirname}/../build",
+    "miDebuggerPath": "/usr/bin/gdb",
+    "program": "${workspaceRoot}/build/test/dbcProcessorTests"
+  }
+   ]
+}

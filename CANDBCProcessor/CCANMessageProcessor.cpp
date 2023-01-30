@@ -2,26 +2,38 @@
 #include "CDBCInfoBuilder.h"
 #include "ISignalListener.h"
 #include "DBCProcessor.h"
-
 #include <iostream>
+#include "Logger.h"
+#ifdef WITH_LOGGER
+#include "CSimpleLogger.h"
+#endif
 
 const std::string& CCANMessageProcessor::GetDBCVersion() const
 {
   return m_dbcInfo.dbcVersion;
 }
 
-void CCANMessageProcessor::Initialize( const std::string& dbcFilePath )
+void CCANMessageProcessor::Initialize( const std::string& dbcFilePath, std::shared_ptr<Logger::ILogger> pLogger )
 {
   std::vector<std::string> dbcList = { dbcFilePath } ;
-  Initialize(dbcList);
+  Initialize(dbcList,pLogger);
 }
 
-
-
-void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList )
-{
+void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList , std::shared_ptr<Logger::ILogger> pLogger )
+{ 
+#ifdef WITH_LOGGER
+  if ( nullptr == pLogger )
+  {
+    m_pLogger =  std::make_shared<Logger::CSimpleLogger>();
+  }
+  else
+  {
+    m_pLogger = pLogger;
+  }
+#endif
   CDBCInfoBuilder dbcBuilder(m_dbcInfo);
   dbcBuilder.BuildDBCInfo(dbcList);
+  LOG(INFO, ("DBC CAN Processor initialized") )
 }
 
 void CCANMessageProcessor::Shutdown()

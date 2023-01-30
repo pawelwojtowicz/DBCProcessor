@@ -1,14 +1,16 @@
 #pragma once
 #include "DBCInfo.h"
 #include <vector>
+#include <memory>
+#include "ILogger.h"
 
 class ISignalListenerl;
 
 class CCANMessageProcessor
 {
 public:
-  void Initialize( const std::string& dbcFilePath );
-  void Initialize(  const std::vector<std::string>& dbcList );
+  void Initialize( const std::string& dbcFilePath , std::shared_ptr<Logger::ILogger> pLogger = {} );
+  void Initialize(  const std::vector<std::string>& dbcList, std::shared_ptr<Logger::ILogger> pLogger = {}  );
   void Shutdown();
 
   const std::string& GetDBCVersion() const;
@@ -33,4 +35,7 @@ private:
 
 private:
   DBCInfo m_dbcInfo;
+
+private:
+  std::shared_ptr<Logger::ILogger> m_pLogger;
 };

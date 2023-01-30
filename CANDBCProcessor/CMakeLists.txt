@@ -1,5 +1,11 @@
 project ( CANDBCProcessor )
 
+set( LOGGER_ENABLED false)
+
+if ( LOGGER_ENABLED )
+  add_compile_definitions(WITH_LOGGER)
+endif()
+
 add_library( CANDBCProcessor STATIC
   CMultiplexedMessageProcessor.cpp
   CMultiplexedMessageProcessor.h
@@ -26,6 +32,12 @@ add_library( CANDBCProcessor STATIC
   CSignalValueTemplate.cpp
   CSignalValueTemplate.h
   DBCInfo.h
+  CSimpleLogger.cpp
+  CSimpleLogger.h
+  CLoggerMsg.cpp
+  CLoggerMsg.h
+  ILogger.h
+  Logger.h
 )
     
 target_include_directories (CANDBCProcessor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
