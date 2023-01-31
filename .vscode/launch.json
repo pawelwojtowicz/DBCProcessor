@@ -4,7 +4,7 @@
     "name": "Debug DBCProcessor GTEST",
     "type": "cppdbg",
     "request": "launch",
-    "cwd": "${fileDirname}/../build",
+    "cwd": "${workspaceRoot}/build",
     "miDebuggerPath": "/usr/bin/gdb",
     "program": "${workspaceRoot}/build/test/dbcProcessorTests"
   }

@@ -1,6 +1,6 @@
 project ( CANDBCProcessor )
 
-set( LOGGER_ENABLED false)
+set( LOGGER_ENABLED true)
 
 if ( LOGGER_ENABLED )
   add_compile_definitions(WITH_LOGGER)

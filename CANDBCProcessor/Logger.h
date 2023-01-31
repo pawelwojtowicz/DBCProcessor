@@ -5,6 +5,8 @@
 #define INFO    0x02
 #define DETAIL  0x01
 
+#define ALL ( ERROR | WARNING | INFO | DETAIL )
+
 #ifdef WITH_LOGGER
 
 #include "CLoggerMsg.h"
