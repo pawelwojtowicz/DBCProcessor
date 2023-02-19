@@ -38,6 +38,10 @@ add_library( CANDBCProcessor STATIC
   CLoggerMsg.h
   ILogger.h
   Logger.h
+  CDBCVerifier.cpp
+  CDBCVerifier.h
+  CVerifySignalOverlay.cpp
+  CVerifySignalOverlay.h
 )
     
 target_include_directories (CANDBCProcessor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

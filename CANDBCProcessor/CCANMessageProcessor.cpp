@@ -2,7 +2,7 @@
 #include "CDBCInfoBuilder.h"
 #include "ISignalListener.h"
 #include "DBCProcessor.h"
-#include <iostream>
+#include "CDBCVerifier.h"
 #include "Logger.h"
 #ifdef WITH_LOGGER
 #include "CSimpleLogger.h"
@@ -13,16 +13,16 @@ const std::string& CCANMessageProcessor::GetDBCVersion() const
   return m_dbcInfo.dbcVersion;
 }
 
-void CCANMessageProcessor::Initialize( const std::string& dbcFilePath, std::shared_ptr<Logger::ILogger> pLogger )
+void CCANMessageProcessor::Initialize( const std::string& dbcFilePath, const bool verifyDBC,std::shared_ptr<Logger::ILogger> pLogger )
 {
   std::vector<std::string> dbcList = { dbcFilePath } ;
-  Initialize(dbcList,pLogger);
+  Initialize(dbcList, verifyDBC,pLogger);
 }
 
-void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList , std::shared_ptr<Logger::ILogger> pLogger )
+void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList,const bool verifyDBC , std::shared_ptr<Logger::ILogger> pLogger )
 { 
 #ifdef WITH_LOGGER
-  if ( nullptr == pLogger )
+  if ( !pLogger )
   {
     m_pLogger =  std::make_shared<Logger::CSimpleLogger>();
   }
@@ -33,7 +33,21 @@ void CCANMessageProcessor::Initialize(  const std::vector<std::string>& dbcList 
 #endif
   CDBCInfoBuilder dbcBuilder(m_dbcInfo);
   dbcBuilder.BuildDBCInfo(dbcList);
-  LOG(INFO, ("DBC CAN Processor initialized") )
+
+  if ( verifyDBC )
+  {
+    CDBCVerifier dbcInfoVerifier(m_dbcInfo);
+    if (dbcInfoVerifier.VerifyDBCInfo())
+    {
+      LOG(INFO, ("DBC stack initialized correctly ") )
+    }
+    else
+    {
+      LOG(ERROR, ( "DBC stack verification detected logical errors") )
+    }
+  }
+
+
 }
 
 void CCANMessageProcessor::Shutdown()

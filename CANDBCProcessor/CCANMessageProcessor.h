@@ -9,8 +9,8 @@ class ISignalListenerl;
 class CCANMessageProcessor
 {
 public:
-  void Initialize( const std::string& dbcFilePath , std::shared_ptr<Logger::ILogger> pLogger = {} );
-  void Initialize(  const std::vector<std::string>& dbcList, std::shared_ptr<Logger::ILogger> pLogger = {}  );
+  void Initialize( const std::string& dbcFilePath , const bool verifyDBC = false ,std::shared_ptr<Logger::ILogger> pLogger = {} );
+  void Initialize(  const std::vector<std::string>& dbcList, const bool verifyDBC = false , std::shared_ptr<Logger::ILogger> pLogger = {}  );
   void Shutdown();
 
   const std::string& GetDBCVersion() const;
