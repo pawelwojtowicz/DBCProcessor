@@ -13,6 +13,10 @@ public:
 
   uint64_t ExtractValue( const uint64_t& data , const uint64_t& reversedData, size_t dataLength);
 
+  int GetStartBit() const;
+  int GetLength() const;
+  eEndiannes GetEndiannes() const;
+
 private:
   int m_bitStart;
   int m_bitLength;

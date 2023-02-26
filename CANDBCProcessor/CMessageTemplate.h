@@ -40,6 +40,7 @@ public:
 
   bool SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener);
 
+  const tSignalList& GetMessageSignals() const;
   tSignalList& GetMessageSignals();
 private:
   tSignalList m_signals;

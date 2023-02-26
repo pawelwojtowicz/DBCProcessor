@@ -24,3 +24,18 @@ uint64_t CSignal::ExtractValue( const uint64_t& canData, const uint64_t& reverse
  
   return m_canSignalMask & ( rawValue >> m_bitStart );
 }
+
+int CSignal::GetStartBit() const
+{
+  return m_bitStart;
+}
+
+int CSignal::GetLength() const
+{
+  return m_bitLength;
+}
+
+CSignal::eEndiannes CSignal::GetEndiannes() const
+{
+  return m_endiannes;
+}

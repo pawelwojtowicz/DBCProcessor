@@ -12,6 +12,7 @@ add_executable( dbcProcessorTests
   CValueTest.cpp
   CValueDictionary_Test.cpp
   MessageListenerTest.cpp
+  CDBCVerifierTest.cpp
   CascadeLoading.cpp
 )
 

@@ -136,6 +136,11 @@ void  CMessageTemplate::BuildDefaultValueMap()
   }
 }
 
+const CMessageTemplate::tSignalList& CMessageTemplate::GetMessageSignals() const
+{
+  return m_signals;
+}
+
 CMessageTemplate::tSignalList& CMessageTemplate::GetMessageSignals()
 {
   return m_signals;

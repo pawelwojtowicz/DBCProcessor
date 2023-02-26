@@ -28,5 +28,5 @@ bool CDBCVerifier::VerifyDBCInfo()
     }
   }
 
-  return ( 0 != errorCount );
+  return ( 0 == errorCount );
 }
