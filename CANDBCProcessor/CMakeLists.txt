@@ -42,6 +42,10 @@ add_library( CANDBCProcessor STATIC
   CDBCVerifier.h
   CVerifySignalOverlay.cpp
   CVerifySignalOverlay.h
+  CVerifyMultiplexIndexes.cpp
+  CVerifyMultiplexIndexes.h
+  CVerifyPositionLength.cpp
+  CVerifyPositionLength.h
 )
     
 target_include_directories (CANDBCProcessor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -13,6 +13,10 @@ bool CVerifySignalOverlay::VerifyMessage( const CMessageTemplate&  msgEntry )
 
   for ( const auto& signalEntry : signalsList )
   {
+    if ( cStaticIndexField != std::get<MULTIPLEXERID>(signalEntry))
+    {
+      continue;
+    }
     const CSignal& signalDesc = std::get<SIGNAL>(signalEntry);
     
     int startBit = signalDesc.GetStartBit();
@@ -27,7 +31,10 @@ bool CVerifySignalOverlay::VerifyMessage( const CMessageTemplate&  msgEntry )
         // reclaculate index for big endian
       }
 
-      signalsLayout[currIndex].insert( std::get<VALUE>(signalEntry).GetName() );
+      if ( currIndex < 64)
+      {
+        signalsLayout[currIndex].insert( std::get<VALUE>(signalEntry).GetName() );
+      }
     }
   }
 

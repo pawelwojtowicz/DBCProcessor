@@ -1,0 +1,7 @@
+VERSION "TEST_VERSION"
+
+BO_ 15729664 EEC1: 8 [sender]
+ SG_ EngineSpeed : 24|56@1+ (0.125,0) [0|8031.875] "rpm" [receiver]
+
+BA_ "ProtocolType" "J1939";
+BA_DEF_  "DatabaseCompiler" STRING ;

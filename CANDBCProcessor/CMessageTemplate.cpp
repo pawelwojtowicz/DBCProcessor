@@ -116,7 +116,7 @@ void CMessageTemplate::SetSignalValueDictonary( const std::string& signalName, c
   }
 }
 
-bool CMessageTemplate::IsMultiplexedMessage()
+bool CMessageTemplate::IsMultiplexedMessage() const
 {
   for ( const auto& signal: m_signals)
   {

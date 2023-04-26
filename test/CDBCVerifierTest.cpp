@@ -30,5 +30,8 @@ INSTANTIATE_TEST_CASE_P(
         CDBCVerifierTest,
         ::testing::Values(
                 tTestParameters( { std::string("../test/testData/verfication_overlayedSignals.dbc"), false } ),
-                tTestParameters( { std::string("../test/testData/basic.dbc"), true } )
+                tTestParameters( { std::string("../test/testData/basic.dbc"), true } ),
+                tTestParameters( { std::string("../test/testData/multiplexed_broken.dbc"), false } ),
+                tTestParameters( { std::string("../test/testData/multiplexed.dbc"), true } ),
+                tTestParameters( { std::string("../test/testData/basicExceeded.dbc"),false } )
         ));

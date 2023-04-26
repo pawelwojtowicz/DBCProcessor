@@ -36,7 +36,7 @@ public:
   void SetRawData( const uint64_t& rawData);
   void BuildDefaultValueMap();
 
-  bool IsMultiplexedMessage();
+  bool IsMultiplexedMessage() const;
 
   bool SubscribeCANSignal( const std::string& signalName, ISignalListener& signalListener);
 
