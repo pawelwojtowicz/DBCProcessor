@@ -27,6 +27,8 @@ add_library( CANDBCProcessor STATIC
   CSignal.h
   CValueDictionary.cpp
   CValueDictionary.h
+  CValueIntegrator.cpp
+  CValueIntegrator.h
   CValue.cpp 
   CValue.h
   CSignalValueTemplate.cpp
@@ -46,6 +48,8 @@ add_library( CANDBCProcessor STATIC
   CVerifyMultiplexIndexes.h
   CVerifyPositionLength.cpp
   CVerifyPositionLength.h
+  CLowPassFilter.cpp
+  CLowPassFilter.h
 )
     
 target_include_directories (CANDBCProcessor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
